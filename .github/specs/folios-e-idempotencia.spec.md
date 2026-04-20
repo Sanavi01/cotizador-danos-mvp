@@ -259,7 +259,7 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
 - [x] Implementar caso de uso de consulta de estado de cotizacion
 - [x] Implementar controller(s) `/v1/folios` y `/v1/quotes/{folio}/state`
 - [x] Agregar o actualizar migraciones Flyway si aplica
-- [ ] Documentar OpenAPI del contrato
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
 - [ ] Caso de uso happy path de creacion de folio
