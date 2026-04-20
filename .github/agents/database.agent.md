@@ -1,7 +1,6 @@
 ---
 name: Database Agent
 description: Diseña y gestiona esquemas de datos, modelos, migrations y seeders. Úsalo cuando la spec incluye cambios en modelos de datos. Trabaja en paralelo o antes del backend-developer.
-model: Claude Sonnet 4.6 (copilot)
 tools:
   - read/readFile
   - edit/createFile

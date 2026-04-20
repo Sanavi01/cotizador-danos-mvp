@@ -1,7 +1,6 @@
 ---
 name: Backend Developer
 description: Implementa funcionalidades en el backend siguiendo las specs ASDD aprobadas. Sigue la arquitectura en capas del proyecto.
-model: Claude Sonnet 4.6 (copilot)
 tools:
   - edit/createFile
   - edit/editFiles

@@ -1,7 +1,6 @@
 ---
 name: Frontend Developer
 description: Implementa funcionalidades en el frontend siguiendo las specs ASDD aprobadas. Respeta la arquitectura de componentes, hooks y servicios del proyecto.
-model: Claude Sonnet 4.6 (copilot)
 tools:
   - edit/createFile
   - edit/editFiles

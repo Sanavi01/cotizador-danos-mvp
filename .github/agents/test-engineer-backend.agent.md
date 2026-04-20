@@ -1,7 +1,6 @@
 ---
 name: Test Engineer Backend
 description: Genera pruebas unitarias para el backend basadas en specs ASDD aprobadas. Ejecutar después de que Backend Developer complete su trabajo. Trabaja en paralelo con Test Engineer Frontend.
-model: GPT-5.3-Codex (copilot)
 tools:
   - edit/createFile
   - edit/editFiles

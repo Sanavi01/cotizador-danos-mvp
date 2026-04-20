@@ -23,6 +23,8 @@ Requerimiento → Spec → [Backend ∥ Frontend ∥ DB] → [Tests BE ∥ Tests
 
 El archivo `.vscode/settings.json` ya configura el auto-descubrimiento de agentes, skills e instructions. Si no existe, créalo con las rutas correspondientes a `.github/`.
 
+Los prompts y agentes ASDD de este repositorio no deben fijar un modelo específico. La selección del modelo debe quedar en manos del usuario o de la configuración activa de Copilot.
+
 ---
 
 ## Onboarding — nuevo proyecto
