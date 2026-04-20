@@ -262,12 +262,12 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
 - [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de creacion de folio
-- [ ] Caso de uso reintenta con misma Idempotency-Key y retorna la misma respuesta
-- [ ] Caso de uso consulta folio inexistente
-- [ ] Controller retorna 201 con envelope `data`
-- [ ] Controller retorna Problem Details ante error funcional
-- [ ] Validacion de constraint de idempotencia o unicidad segun aplique
+- [x] Caso de uso happy path de creacion de folio
+- [x] Caso de uso reintenta con misma Idempotency-Key y retorna la misma respuesta
+- [x] Caso de uso consulta folio inexistente
+- [x] Controller retorna 201 con envelope `data`
+- [x] Controller retorna Problem Details ante error funcional
+- [x] Validacion de constraint de idempotencia o unicidad segun aplique
 
 ### Frontend
 
