@@ -11,7 +11,7 @@ related-specs: []
 
 # Spec: Folios e Idempotencia
 
-> **Estado:** `DRAFT` → aprobar con `status: APPROVED` antes de iniciar implementación.
+> **Estado:** `APPROVED` → pasar a `IMPLEMENTED` cuando se complete el alcance técnico y de verificación.
 > **Ciclo de vida:** DRAFT → APPROVED → IN_PROGRESS → IMPLEMENTED → DEPRECATED
 
 ---
@@ -206,7 +206,6 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
   }
   ```
 - **Response 404**: numeroFolio inexistente
-- **Response 409**: conflicto de version si la consulta se usa en un contexto de edicion concurrente
 
 ### Diseño Frontend
 
@@ -238,7 +237,7 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
 - Paquetes nuevos requeridos: entidad de dominio `Cotizacion`, adaptador de persistencia de idempotencia, DTOs de request/response y servicio de consulta de estado.
 - Servicios externos: no hay integracion obligatoria; la logica de idempotencia debe resolverse dentro del backend principal.
 - Impacto en punto de entrada de la app: registrar la ruta de creacion/consulta de folio en la SPA y exponer el controller correspondiente en backend.
-- Observacion: no se identificaron modelos o rutas previas en el workspace; esta spec define el contrato base para iniciar el feature.
+- Observacion: el backend ya cuenta con implementacion de folios, idempotencia, persistencia JPA, migraciones Flyway y controller HTTP; esta spec sirve como contrato y trazabilidad del alcance.
 
 ### Notas de Implementación
 > La idempotencia debe ser estable y reproducible. La respuesta funcional asociada a una llave existente debe ser la misma para reintentos equivalentes.
@@ -253,13 +252,13 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
 ### Backend
 
 #### Implementación
-- [ ] Crear request/response DTOs para la creacion de folios y la consulta de estado
-- [ ] Implementar entidad `Cotizacion` con `numeroFolio`, `estadoCotizacion`, `version` y `fechaUltimaActualizacion`
-- [ ] Implementar entidad o tabla de soporte para idempotencia
-- [ ] Implementar caso de uso de creacion de folio con control de duplicados
-- [ ] Implementar caso de uso de consulta de estado de cotizacion
-- [ ] Implementar controller(s) `/v1/folios` y `/v1/quotes/{folio}/state`
-- [ ] Agregar o actualizar migraciones Flyway si aplica
+- [x] Crear request/response DTOs para la creacion de folios y la consulta de estado
+- [x] Implementar entidad `Cotizacion` con `numeroFolio`, `estadoCotizacion`, `version` y `fechaUltimaActualizacion`
+- [x] Implementar entidad o tabla de soporte para idempotencia
+- [x] Implementar caso de uso de creacion de folio con control de duplicados
+- [x] Implementar caso de uso de consulta de estado de cotizacion
+- [x] Implementar controller(s) `/v1/folios` y `/v1/quotes/{folio}/state`
+- [x] Agregar o actualizar migraciones Flyway si aplica
 - [ ] Documentar OpenAPI del contrato
 
 #### Tests Backend
