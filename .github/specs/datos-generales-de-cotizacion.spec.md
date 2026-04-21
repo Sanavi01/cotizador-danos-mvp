@@ -344,19 +344,19 @@ CRITERIO-2.3: Rechazar cambios con version desactualizada
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicio Axios para consultar y guardar la seccion general
-- [ ] Crear hook para administrar carga, guardado y errores
-- [ ] Implementar formulario y componentes de soporte para asegurado y conduccion comercial
-- [ ] Implementar pagina de edicion y registrar ruta nueva
-- [ ] Reutilizar catalogos core para poblar los campos comerciales
-- [ ] Mantener mensajes de error y estado con envelope `data` y Problem Details
+- [x] Crear servicio Axios para consultar y guardar la seccion general
+- [x] Crear hook para administrar carga, guardado y errores
+- [x] Implementar formulario y componentes de soporte para asegurado y conduccion comercial
+- [x] Implementar pagina de edicion y registrar ruta nueva
+- [x] Reutilizar catalogos core para poblar los campos comerciales
+- [x] Mantener mensajes de error y estado con envelope `data` y Problem Details
 
 #### Tests Frontend
-- [ ] Componente principal renderiza datos existentes
-- [ ] Componente dispara guardado con la version actual
-- [ ] Hook maneja carga exitosa y seccion vacia
-- [ ] Hook maneja error de folio inexistente o validacion invalida
-- [ ] Pagina integra consulta, edicion y guardado
+- [X] Componente principal renderiza datos existentes
+- [X] Componente dispara guardado con la version actual
+- [X] Hook maneja carga exitosa y seccion vacia
+- [X] Hook maneja error de folio inexistente o validacion invalida
+- [X] Pagina integra consulta, edicion y guardado
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` -> criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3
