@@ -212,6 +212,9 @@ export function GeneralInfoPage() {
           <button className={styles.secondaryButton} type="button" onClick={() => navigate(`/quotes/${encodeURIComponent(folio)}/locations/layout`)}>
             Layout de ubicaciones
           </button>
+          <button className={styles.secondaryButton} type="button" onClick={() => navigate(`/quotes/${encodeURIComponent(folio)}/locations`)}>
+            Ubicaciones
+          </button>
           <button className={styles.secondaryButton} type="button" onClick={() => void reloadCatalogs()} disabled={catalogsLoading}>
             {catalogsLoading ? 'Recargando catálogos...' : 'Recargar catálogos'}
           </button>
