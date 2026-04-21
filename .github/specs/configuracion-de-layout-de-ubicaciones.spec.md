@@ -301,21 +301,21 @@ CRITERIO-2.3: Mantener la coherencia del estado del folio
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para consulta y actualizacion de layout
-- [ ] Implementar entidad de dominio para configuracionLayout y sus slots
-- [ ] Implementar caso de uso de consulta del layout por `numeroFolio`
-- [ ] Implementar caso de uso de actualizacion con versionado optimista
-- [ ] Implementar adaptador JPA y migracion Flyway para `cotizacion_layout_ubicaciones`
-- [ ] Implementar controller `/v1/quotes/{folio}/locations/layout`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear request/response DTOs para consulta y actualizacion de layout
+- [x] Implementar entidad de dominio para configuracionLayout y sus slots
+- [x] Implementar caso de uso de consulta del layout por `numeroFolio`
+- [x] Implementar caso de uso de actualizacion con versionado optimista
+- [x] Implementar adaptador JPA y migracion Flyway para `cotizacion_layout_ubicaciones`
+- [x] Implementar controller `/v1/quotes/{folio}/locations/layout`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de consulta de layout
-- [ ] Caso de uso happy path de actualizacion valida
-- [ ] Caso de uso con conflicto de version desactualizada
-- [ ] Caso de uso con `numeroFolio` inexistente
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de consulta de layout
+- [x] Caso de uso happy path de actualizacion valida
+- [x] Caso de uso con conflicto de version desactualizada
+- [x] Caso de uso con `numeroFolio` inexistente
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
