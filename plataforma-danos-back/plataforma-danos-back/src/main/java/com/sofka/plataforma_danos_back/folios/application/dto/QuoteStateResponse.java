@@ -26,15 +26,30 @@ public record QuoteStateResponse(
         Instant fechaUltimaActualizacion
 ) {
     public static QuoteStateResponse from(Cotizacion cotizacion) {
-        return from(cotizacion, false);
+        return from(cotizacion, false, false);
     }
 
     public static QuoteStateResponse from(Cotizacion cotizacion, boolean generalInfoCompleted) {
+        return from(cotizacion, generalInfoCompleted, false);
+    }
+
+    public static QuoteStateResponse from(
+            Cotizacion cotizacion,
+            boolean generalInfoCompleted,
+            boolean locationsLayoutCompleted
+    ) {
+        java.util.ArrayList<String> seccionesCompletadas = new java.util.ArrayList<>();
+        if (generalInfoCompleted) {
+            seccionesCompletadas.add("datos-generales");
+        }
+        if (locationsLayoutCompleted) {
+            seccionesCompletadas.add("configuracion-layout");
+        }
         return new QuoteStateResponse(
                 cotizacion.numeroFolio(),
                 cotizacion.estadoCotizacion(),
                 false,
-                generalInfoCompleted ? List.of("datos-generales") : List.of(),
+                List.copyOf(seccionesCompletadas),
                 0,
                 0,
                 cotizacion.version(),
