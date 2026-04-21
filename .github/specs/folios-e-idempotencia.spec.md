@@ -280,10 +280,10 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
 - [x] Registrar rutas necesarias en la SPA
 
 #### Tests Frontend
-- [ ] Componente crítico renderiza el numeroFolio creado
-- [ ] Hook maneja exito y reintento idempotente
-- [ ] Hook maneja error cuando el folio no existe
-- [ ] Pagina de estado renderiza los datos de progreso del folio
+- [x] Componente crítico renderiza el numeroFolio creado
+- [x] Hook maneja exito y reintento idempotente
+- [x] Hook maneja error cuando el folio no existe
+- [x] Pagina de estado renderiza los datos de progreso del folio
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` → criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3
