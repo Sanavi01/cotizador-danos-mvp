@@ -187,6 +187,7 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
 
 #### GET /v1/quotes/{folio}/state
 - **Descripción**: Consulta el estado actual de una cotizacion por numeroFolio.
+- **Nota de ownership**: este endpoint nace en esta capability como contrato minimo. El contrato canonico y consolidado del resumen operativo vive en `SPEC-006 Estado y Progreso de Cotizacion`. Las implementaciones nuevas deben tomar `SPEC-006` como fuente de verdad y preservar compatibilidad hacia atras solo si aplica.
 - **Auth requerida**: no / sesión demo si aplica
 - **Path Parameters**:
   - `folio`: string del numeroFolio
