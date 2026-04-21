@@ -486,11 +486,11 @@ CRITERIO-2.3: Operar con un stub documentado
 - [x] Reutilizar la capa en futuras pantallas de ubicaciones
 
 #### Tests Frontend
-- [ ] Componente de catalogo renderiza items y estados de carga
-- [ ] Componente de validacion postal muestra alerta cuando el codigo es invalido
-- [ ] Hook carga catalogos exitosamente
-- [ ] Hook devuelve error y estado vacio cuando falla la referencia core
-- [ ] Pagina integra el flujo principal y conserva el contrato de datos
+- [x] Componente de catalogo renderiza items y estados de carga
+- [x] Componente de validacion postal muestra alerta cuando el codigo es invalido
+- [x] Hook carga catalogos exitosamente
+- [x] Hook devuelve error y estado vacio cuando falla la referencia core
+- [x] Pagina integra el flujo principal y conserva el contrato de datos
 
 ### QA
 - [ ] Ejecutar coverage unitario minimo del 80 por ciento
