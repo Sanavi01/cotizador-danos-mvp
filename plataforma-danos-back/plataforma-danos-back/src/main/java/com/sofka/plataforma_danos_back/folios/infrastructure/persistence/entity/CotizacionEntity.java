@@ -1,7 +1,11 @@
 package com.sofka.plataforma_danos_back.folios.infrastructure.persistence.entity;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+
 import com.sofka.plataforma_danos_back.folios.domain.Cotizacion;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoCotizacion;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,9 +17,6 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import jakarta.persistence.Version;
-
-import java.math.BigDecimal;
-import java.time.Instant;
 
 @Entity
 @Table(name = "cotizaciones_danos")
@@ -75,8 +76,16 @@ public class CotizacionEntity {
         return version;
     }
 
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     public Instant getFechaUltimaActualizacion() {
         return fechaUltimaActualizacion;
+    }
+
+    public void setFechaUltimaActualizacion(Instant fechaUltimaActualizacion) {
+        this.fechaUltimaActualizacion = fechaUltimaActualizacion;
     }
 
     public BigDecimal getPrimaNeta() {
@@ -99,8 +108,16 @@ public class CotizacionEntity {
         return createdAt;
     }
 
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Instant getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @PrePersist

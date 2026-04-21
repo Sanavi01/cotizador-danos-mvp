@@ -1,25 +1,19 @@
 package com.sofka.plataforma_danos_back.folios.application;
 
-import com.sofka.plataforma_danos_back.folios.application.dto.QuoteStateResponse;
+import com.sofka.plataforma_danos_back.folios.application.dto.GeneralInfoResponse;
 import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
 import com.sofka.plataforma_danos_back.folios.domain.port.CotizacionRepository;
 import com.sofka.plataforma_danos_back.folios.domain.port.DatosGeneralesCotizacionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class GetQuoteStateUseCase {
+public class GetGeneralInfoUseCase {
 
     private final CotizacionRepository cotizacionRepository;
     private final DatosGeneralesCotizacionRepository datosGeneralesCotizacionRepository;
 
-    public GetQuoteStateUseCase(CotizacionRepository cotizacionRepository) {
-        this(cotizacionRepository, null);
-    }
-
-    @Autowired
-    public GetQuoteStateUseCase(
+    public GetGeneralInfoUseCase(
             CotizacionRepository cotizacionRepository,
             DatosGeneralesCotizacionRepository datosGeneralesCotizacionRepository
     ) {
@@ -28,13 +22,11 @@ public class GetQuoteStateUseCase {
     }
 
     @Transactional(readOnly = true)
-    public QuoteStateResponse handle(String numeroFolio) {
+    public GeneralInfoResponse handle(String numeroFolio) {
         return cotizacionRepository.findByNumeroFolio(numeroFolio)
-                .map(cotizacion -> QuoteStateResponse.from(cotizacion, hasGeneralInfo(cotizacion.id())))
+                .map(cotizacion -> datosGeneralesCotizacionRepository.findByCotizacionId(cotizacion.id())
+                        .map(datosGeneralesCotizacion -> GeneralInfoResponse.from(cotizacion, datosGeneralesCotizacion))
+                        .orElseGet(() -> GeneralInfoResponse.empty(cotizacion)))
                 .orElseThrow(() -> new QuoteNotFoundException(numeroFolio));
-    }
-
-    private boolean hasGeneralInfo(Long cotizacionId) {
-        return datosGeneralesCotizacionRepository != null && datosGeneralesCotizacionRepository.existsByCotizacionId(cotizacionId);
     }
 }
