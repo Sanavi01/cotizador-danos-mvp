@@ -19,7 +19,7 @@ related-specs: ["SPEC-002", "SPEC-005", "SPEC-006"]
 ## 1. REQUERIMIENTOS
 
 ### Descripcion
-Esta funcionalidad permite consultar y actualizar las `opcionesCobertura` globales de una cotizacion para controlar que garantias y terminos participan en el calculo. La seccion debe permanecer separada del resto del agregado, conservar `version` y `fechaUltimaActualizacion`, y exponer tanto la configuracion global editable como una proyeccion derivada por ubicacion util para la UI antes del calculo.
+Esta funcionalidad permite consultar y actualizar las `opcionesCobertura` globales de una cotizacion para controlar que garantias y terminos participan en el calculo. La seccion debe permanecer separada del resto del agregado, conservar `version` y `fechaUltimaActualizacion`, y exponer tanto la configuracion global editable como una proyeccion derivada por ubicacion util para la UI antes del calculo. La proyeccion debe dejar visible el origen tecnico preliminar que el backend intentaria resolver contra las matrices del fixture (`tariffs`, `fireTariffs`, `catTariffs`, `fhmTariffs`, `electronicEquipmentFactors`) sin reemplazar el calculo final.
 
 ### Requerimiento de Negocio
 Fuente principal: `.github/requirements/opciones-de-cobertura.md`.
@@ -126,10 +126,12 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
 6. La consulta de la seccion debe poder devolver una configuracion vacia con shape fijo y la `version` real del agregado si la cotizacion existe pero aun no tiene coberturas.
 7. La respuesta debe incluir `projectionPerLocation` como vista derivada de solo lectura; no se edita por ubicacion en esta capability.
 8. Si una garantia del catalogo no existe o esta inactiva, el guardado debe ser rechazado.
-9. Una garantia es tarifable para calculo cuando existe en catalogo, esta seleccionada y tiene tarifa resoluble para la combinacion `ubicacion + giro + zona + garantia`.
-10. Si no existe un catalogo formal para `terminos`, estos se tratan como valores documentados libres asociados a la garantia.
-11. Toda actualizacion valida incrementa `version` y actualiza `fechaUltimaActualizacion`.
-12. Las respuestas exitosas deben usar envelope `data`; los errores deben publicarse como Problem Details.
+9. Una garantia solo puede marcarse como `tariffablePreview = true` cuando existe en catalogo, esta seleccionada y el backend logra resolver al menos una ruta tecnica obligatoria del MVP con la informacion ya persistida del folio: `giroCode|zonaCode|garantiaCode` sobre `tariffs`, `giroCode|tipoConstructivo|nivelTarifario` sobre `fireTariffs` o `zonaTev|garantiaCode` sobre `catTariffs`.
+10. Las rutas `fhmTariffs` y `electronicEquipmentFactors` son optativas en esta capability. Si faltan `grupo`, `clase` o equivalentes documentados, la proyeccion debe devolver `tariffablePreview = false`, `fuenteTecnicaPreview = UNRESOLVED` y explicar el motivo en `motivosNoTarifable`; el endpoint no debe inventar defaults tecnicos.
+11. Si no existe un catalogo formal para `terminos`, estos se tratan como valores documentados libres asociados a la garantia.
+12. Toda actualizacion valida incrementa `version` y actualiza `fechaUltimaActualizacion`.
+13. Las respuestas exitosas deben usar envelope `data`; los errores deben publicarse como Problem Details.
+14. `projectionPerLocation` es orientativa: no persiste montos ni reemplaza la elegibilidad final definida por `POST /calculate`.
 
 ---
 
@@ -159,6 +161,10 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
 | `projectionPerLocation` | array | si en lectura | derivado, solo lectura | Proyeccion de garantias aplicables por ubicacion |
 | `garantiasDerivadas` | array | si por item | derivado desde opciones globales | Garantias visibles por ubicacion antes del calculo |
 | `calculablePreview` | boolean | si por item | derivado | Indica si la ubicacion podria ser calculable con la configuracion actual |
+| `tariffablePreview` | boolean | si por garantia derivada | derivado | Indica si el backend encontro una ruta tecnica preliminar para la garantia |
+| `fuenteTecnicaPreview` | string | si por garantia derivada | enum: `CORE_TARIFF`, `FIRE_TARIFF`, `CAT_TARIFF`, `FHM_TARIFF`, `ELECTRONIC_FACTOR`, `UNRESOLVED` | Fuente del fixture usada para la previsualizacion |
+| `lookupKeyPreview` | string | no por garantia derivada | nullable | Clave compuesta resuelta contra el fixture cuando aplica |
+| `motivosNoTarifable` | array | si por garantia derivada | serializable | Explica por que la garantia no puede previsualizarse como tarifable |
 | `createdAt` | datetime | si | auto-actualizado | Fecha de creacion del registro |
 | `updatedAt` | datetime | si | auto-actualizado | Fecha de ultima actualizacion del registro |
 
@@ -194,16 +200,40 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
         {
           "indice": 1,
           "garantiasDerivadas": [
-            { "garantiaCode": "GAR-INC-ED", "tariffablePreview": true },
-            { "garantiaCode": "GAR-ROBO", "tariffablePreview": false }
+            {
+              "garantiaCode": "GAR-INC-ED",
+              "tariffablePreview": true,
+              "fuenteTecnicaPreview": "CORE_TARIFF",
+              "lookupKeyPreview": "GIRO-001|ZTEV-1|GAR-INC-ED",
+              "motivosNoTarifable": []
+            },
+            {
+              "garantiaCode": "GAR-ROBO",
+              "tariffablePreview": false,
+              "fuenteTecnicaPreview": "UNRESOLVED",
+              "lookupKeyPreview": null,
+              "motivosNoTarifable": ["No existe tarifa vigente para la combinacion actual de la ubicacion."]
+            }
           ],
           "calculablePreview": true
         },
         {
           "indice": 2,
           "garantiasDerivadas": [
-            { "garantiaCode": "GAR-INC-ED", "tariffablePreview": false },
-            { "garantiaCode": "GAR-ROBO", "tariffablePreview": false }
+            {
+              "garantiaCode": "GAR-INC-ED",
+              "tariffablePreview": false,
+              "fuenteTecnicaPreview": "UNRESOLVED",
+              "lookupKeyPreview": null,
+              "motivosNoTarifable": ["La ubicacion no tiene zona TEV resoluble."]
+            },
+            {
+              "garantiaCode": "GAR-ROBO",
+              "tariffablePreview": false,
+              "fuenteTecnicaPreview": "UNRESOLVED",
+              "lookupKeyPreview": null,
+              "motivosNoTarifable": ["La ubicacion no tiene giro o codigo postal valido para previsualizar tarifas."]
+            }
           ],
           "calculablePreview": false
         }
@@ -264,8 +294,20 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
         {
           "indice": 1,
           "garantiasDerivadas": [
-            { "garantiaCode": "GAR-INC-ED", "tariffablePreview": true },
-            { "garantiaCode": "GAR-ROBO", "tariffablePreview": false }
+            {
+              "garantiaCode": "GAR-INC-ED",
+              "tariffablePreview": true,
+              "fuenteTecnicaPreview": "CORE_TARIFF",
+              "lookupKeyPreview": "GIRO-001|ZTEV-1|GAR-INC-ED",
+              "motivosNoTarifable": []
+            },
+            {
+              "garantiaCode": "GAR-ROBO",
+              "tariffablePreview": false,
+              "fuenteTecnicaPreview": "UNRESOLVED",
+              "lookupKeyPreview": null,
+              "motivosNoTarifable": ["No existe tarifa vigente para la combinacion actual de la ubicacion."]
+            }
           ],
           "calculablePreview": true
         }
@@ -312,11 +354,12 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
 - La validacion debe apoyarse en el catalogo de garantias del core para impedir coberturas inexistentes o inactivas.
 - El resultado de esta seccion debe ser consumido por el futuro calculo tecnico y por el resumen de estado del folio.
 - La seccion debe alimentar el read model derivado `garantias[]` de ubicaciones y la vista `projectionPerLocation`, sin convertir esa proyeccion en fuente primaria editable.
+- La proyeccion debe dejar trazable que clave preliminar del fixture pudo resolverse y por que una garantia queda sin preview, para mantener coherencia con `SPEC-008`.
 - La SPA debe agregar una pagina de edicion y, si aplica, un acceso desde la vista de progreso o calculo.
 - La respuesta del backend debe seguir el envelope `data` y los errores deben mapearse a Problem Details, compatible con el manejo ya existente en la app.
 
 ### Notas de Implementacion
-> La cobertura no debe tratarse como una lista libre. El contrato debe validar garantias contra el catalogo core, preservar la version del agregado y dejar una fotografia clara de lo que participara en el siguiente calculo. La edicion ocurre solo a nivel global; la vista por ubicacion es derivada y de solo lectura antes del calculo.
+> La cobertura no debe tratarse como una lista libre. El contrato debe validar garantias contra el catalogo core, preservar la version del agregado y dejar una fotografia clara de lo que participara en el siguiente calculo. La edicion ocurre solo a nivel global; la vista por ubicacion es derivada y de solo lectura antes del calculo. El corte MVP prioriza las rutas que ya pueden resolverse con `giro`, `tipoConstructivo`, `nivel` y `zonaTev`; si una ruta depende de llaves aun no modeladas en el folio actual, la proyeccion debe marcarla como `UNRESOLVED` en lugar de asumir equivalencias.
 
 ---
 
