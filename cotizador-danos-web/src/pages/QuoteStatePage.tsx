@@ -28,6 +28,14 @@ export function QuoteStatePage() {
           >
             Datos generales
           </button>
+          <button
+            className={styles.secondaryButton}
+            type="button"
+            onClick={() => navigate(`/quotes/${encodeURIComponent(folio ?? '')}/locations/layout`)}
+            disabled={!folio}
+          >
+            Layout de ubicaciones
+          </button>
           <button className={styles.secondaryButton} type="button" onClick={() => navigate('/cotizador')}>
             Volver
           </button>

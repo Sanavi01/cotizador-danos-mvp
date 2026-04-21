@@ -1,6 +1,6 @@
 ---
 id: SPEC-004
-status: DRAFT
+status: APPROVED
 feature: configuracion-de-layout-de-ubicaciones
 created: 2026-04-21
 updated: 2026-04-21
@@ -320,19 +320,19 @@ CRITERIO-2.3: Mantener la coherencia del estado del folio
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicio Axios para consultar y guardar la configuracionLayout
-- [ ] Crear hook para administrar carga, guardado y estado del layout
-- [ ] Implementar formulario y componentes de vista previa de ubicaciones
-- [ ] Implementar pagina de edicion y registrar ruta nueva
-- [ ] Integrar acceso desde el flujo de cotizacion y estado del folio
-- [ ] Mantener mensajes de error y estado con envelope `data` y Problem Details
+- [x] Crear servicio Axios para consultar y guardar la configuracionLayout
+- [x] Crear hook para administrar carga, guardado y estado del layout
+- [x] Implementar formulario y componentes de vista previa de ubicaciones
+- [x] Implementar pagina de edicion y registrar ruta nueva
+- [x] Integrar acceso desde el flujo de cotizacion y estado del folio
+- [x] Mantener mensajes de error y estado con envelope `data` y Problem Details
 
 #### Tests Frontend
-- [ ] Componente principal renderiza el layout existente
-- [ ] Componente dispara guardado con la version actual
-- [ ] Hook maneja carga exitosa y layout vacio
-- [ ] Hook maneja error de folio inexistente o conflicto de version
-- [ ] Pagina integra consulta, edicion y guardado
+- [x] Componente principal renderiza el layout existente
+- [x] Componente dispara guardado con la version actual
+- [x] Hook maneja carga exitosa y layout vacio
+- [x] Hook maneja error de folio inexistente o conflicto de version
+- [x] Pagina integra consulta, edicion y guardado
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` -> criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3
