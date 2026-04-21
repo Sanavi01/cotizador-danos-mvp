@@ -121,6 +121,10 @@ CRITERIO-2.3: Operar con un stub documentado
 8. Los catalogos son de solo lectura; no forman parte del alcance administrar altas o cambios de catalogos.
 9. Los giros deben incluir `claveIncendio` porque se requiere para el calculo tecnico.
 10. La vigencia de tarifas se resuelve por fecha actual dentro del rango `vigenciaDesde` y `vigenciaHasta`.
+11. Los estados globales de cotizacion se limitan a `BORRADOR`, `EN_CAPTURA`, `LISTA_PARA_CALCULO` y `CALCULADA`.
+12. El endpoint de estado puede complementar el estado global con `TieneAlertas`, `SeccionesCompletadas`, `UbicacionesCalculables`, `UbicacionesIncompletas`, `Version` y `FechaUltimaActualizacion`.
+13. La moneda oficial del dominio es `COP`; todos los calculos usan `BigDecimal`, persistencia y respuestas con 2 decimales, y redondeo `HALF_UP`.
+14. El dataset versionado del mock debe ser medio realista: 5 suscriptores, 12 agentes, 20 giros con `claveIncendio`, 4 clasificaciones de riesgo, 14 garantias, 60 codigos postales, 1 configuracion activa, matrices de tarifas por giro/zona/nivel y 2 o 3 cotizaciones semilla.
 
 ---
 
