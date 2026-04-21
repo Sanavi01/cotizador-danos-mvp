@@ -3,7 +3,7 @@ id: SPEC-002
 status: APPROVED
 feature: catalogos-y-validaciones-core
 created: 2026-04-20
-updated: 2026-04-20
+updated: 2026-04-21
 author: spec-generator
 version: "1.0"
 related-specs: ["SPEC-001"]
@@ -11,7 +11,7 @@ related-specs: ["SPEC-001"]
 
 # Spec: Catalogos y Validaciones Core
 
-> **Estado:** `DRAFT` -> aprobar con `status: APPROVED` antes de iniciar implementacion.
+> **Estado:** `APPROVED`.
 > **Ciclo de vida:** DRAFT -> APPROVED -> IN_PROGRESS -> IMPLEMENTED -> DEPRECATED
 
 ---
@@ -122,7 +122,7 @@ CRITERIO-2.3: Operar con un stub documentado
 9. Los giros deben incluir `claveIncendio` porque se requiere para el calculo tecnico.
 10. La vigencia de tarifas se resuelve por fecha actual dentro del rango `vigenciaDesde` y `vigenciaHasta`.
 11. Los estados globales de cotizacion se limitan a `BORRADOR`, `EN_CAPTURA`, `LISTA_PARA_CALCULO` y `CALCULADA`.
-12. El endpoint de estado puede complementar el estado global con `TieneAlertas`, `SeccionesCompletadas`, `UbicacionesCalculables`, `UbicacionesIncompletas`, `Version` y `FechaUltimaActualizacion`.
+12. El endpoint de estado puede complementar el estado global con progreso por seccion, `resumenUbicaciones`, `tieneAlertas`, `version` y `fechaUltimaActualizacion`.
 13. La moneda oficial del dominio es `COP`; todos los calculos usan `BigDecimal`, persistencia y respuestas con 2 decimales, y redondeo `HALF_UP`.
 14. El dataset versionado del mock debe ser medio realista: 5 suscriptores, 12 agentes, 20 giros con `claveIncendio`, 4 clasificaciones de riesgo, 14 garantias, 60 codigos postales, 1 configuracion activa, matrices de tarifas por giro/zona/nivel y 2 o 3 cotizaciones semilla.
 
@@ -478,19 +478,19 @@ CRITERIO-2.3: Operar con un stub documentado
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicios Axios para catalogos, zip codes y tarifas
-- [ ] Crear hooks para carga de catalogos, validacion postal y lookup tecnico
-- [ ] Implementar componentes de UI para busqueda, validacion y alertas no bloqueantes
-- [ ] Integrar los componentes en el flujo de cotizacion, no en una pagina separada del core
-- [ ] Agregar filtro local por nombre para mejorar la consulta de catalogos
-- [ ] Reutilizar la capa en futuras pantallas de ubicaciones
+- [x] Crear servicios Axios para catalogos, zip codes y tarifas
+- [x] Crear hooks para carga de catalogos, validacion postal y lookup tecnico
+- [x] Implementar componentes de UI para busqueda, validacion y alertas no bloqueantes
+- [x] Integrar los componentes en el flujo de cotizacion, no en una pagina separada del core
+- [x] Agregar filtro local por nombre para mejorar la consulta de catalogos
+- [x] Reutilizar la capa en futuras pantallas de ubicaciones
 
 #### Tests Frontend
-- [ ] Componente de catalogo renderiza items y estados de carga
-- [ ] Componente de validacion postal muestra alerta cuando el codigo es invalido
-- [ ] Hook carga catalogos exitosamente
-- [ ] Hook devuelve error y estado vacio cuando falla la referencia core
-- [ ] Pagina integra el flujo principal y conserva el contrato de datos
+- [x] Componente de catalogo renderiza items y estados de carga
+- [x] Componente de validacion postal muestra alerta cuando el codigo es invalido
+- [x] Hook carga catalogos exitosamente
+- [x] Hook devuelve error y estado vacio cuando falla la referencia core
+- [x] Pagina integra el flujo principal y conserva el contrato de datos
 
 ### QA
 - [ ] Ejecutar coverage unitario minimo del 80 por ciento
