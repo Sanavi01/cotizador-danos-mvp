@@ -1,4 +1,5 @@
 import { createApiClient, executeWithRetry, type ApiEnvelope } from './httpClient'
+import type { ValidationAlert } from './referenceCoreService'
 
 export interface CreateFolioPayload {
   origin: string
@@ -11,15 +12,45 @@ export interface CreateFolioResponse {
   fechaUltimaActualizacion: string
 }
 
+export type QuoteProgressStatus = 'COMPLETED' | 'INCOMPLETE'
+
+export interface QuoteProgressSummary {
+  datosGenerales: QuoteProgressStatus
+  layoutUbicaciones: QuoteProgressStatus
+  ubicaciones: QuoteProgressStatus
+  opcionesCobertura: QuoteProgressStatus
+}
+
+export interface QuoteLocationsSummary {
+  totalEsperado: number
+  totalActual: number
+  calculables: number
+  incompletas: number
+  invalidas: number
+  conAlertas: number
+}
+
+export interface QuoteFinancialSummary {
+  primaNeta: number
+  primaComercial: number
+  ubicacionesCalculadas: number
+  ubicacionesNoCalculables: number
+  estadoCalculo: 'CALCULADO' | 'PARCIAL' | 'RECHAZADO'
+  calculatedAt: string
+  calculationParameterVersion: string
+}
+
 export interface QuoteStateResponse {
   numeroFolio: string
   estadoCotizacion: string
-  tieneAlertas: boolean
-  seccionesCompletadas: string[]
-  ubicacionesCalculables: number
-  ubicacionesIncompletas: number
   version: number
   fechaUltimaActualizacion: string
+  progreso: QuoteProgressSummary
+  resumenUbicaciones: QuoteLocationsSummary
+  tieneAlertas: boolean
+  alertasVigentes: ValidationAlert[]
+  readyToCalculate: boolean
+  resultadoFinanciero: QuoteFinancialSummary | null
 }
 
 export async function createFolio(
