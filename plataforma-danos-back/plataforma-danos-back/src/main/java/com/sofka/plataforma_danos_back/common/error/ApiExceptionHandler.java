@@ -8,9 +8,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.sofka.plataforma_danos_back.folios.application.exception.CoverageOptionsCatalogValidationException;
+import com.sofka.plataforma_danos_back.folios.application.exception.CoverageOptionsVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoCatalogValidationException;
 import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyConflictException;
+import com.sofka.plataforma_danos_back.folios.application.exception.InvalidCoverageOptionsPayloadException;
 import com.sofka.plataforma_danos_back.folios.application.exception.InvalidLocationsPayloadException;
 import com.sofka.plataforma_danos_back.folios.application.exception.LocationNotFoundException;
 import com.sofka.plataforma_danos_back.folios.application.exception.LocationVersionConflictException;
@@ -44,6 +47,11 @@ public class ApiExceptionHandler {
         return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
     }
 
+    @ExceptionHandler(CoverageOptionsVersionConflictException.class)
+    public ResponseEntity<ProblemDetail> handleCoverageOptionsVersionConflict(CoverageOptionsVersionConflictException exception) {
+        return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
+    }
+
     @ExceptionHandler(LocationVersionConflictException.class)
     public ResponseEntity<ProblemDetail> handleLocationVersionConflict(LocationVersionConflictException exception) {
         return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
@@ -64,6 +72,11 @@ public class ApiExceptionHandler {
         return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Referencia de catalogo invalida", exception.getMessage());
     }
 
+    @ExceptionHandler(CoverageOptionsCatalogValidationException.class)
+    public ResponseEntity<ProblemDetail> handleCoverageOptionsCatalogValidation(CoverageOptionsCatalogValidationException exception) {
+        return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Referencia de catalogo invalida", exception.getMessage());
+    }
+
     @ExceptionHandler(LocationsLayoutValidationException.class)
     public ResponseEntity<ProblemDetail> handleLocationsLayoutValidation(LocationsLayoutValidationException exception) {
         return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Layout de ubicaciones invalido", exception.getMessage());
@@ -71,6 +84,11 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(InvalidLocationsPayloadException.class)
     public ResponseEntity<ProblemDetail> handleInvalidLocationsPayload(InvalidLocationsPayloadException exception) {
+        return problemDetail(HttpStatus.BAD_REQUEST, "Solicitud invalida", exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidCoverageOptionsPayloadException.class)
+    public ResponseEntity<ProblemDetail> handleInvalidCoverageOptionsPayload(InvalidCoverageOptionsPayloadException exception) {
         return problemDetail(HttpStatus.BAD_REQUEST, "Solicitud invalida", exception.getMessage());
     }
 

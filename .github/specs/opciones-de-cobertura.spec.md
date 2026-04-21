@@ -371,22 +371,22 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para consulta y actualizacion de opciones de cobertura
-- [ ] Implementar entidad de dominio para opcionesCobertura y garantias seleccionadas
-- [ ] Implementar caso de uso de consulta de opciones de cobertura por `numeroFolio`
-- [ ] Implementar caso de uso de actualizacion con validacion contra catalogo aprobado
-- [ ] Implementar adaptador JPA y migracion Flyway para `cotizacion_opciones_cobertura`
-- [ ] Implementar controller `/v1/quotes/{folio}/coverage-options`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear request/response DTOs para consulta y actualizacion de opciones de cobertura
+- [x] Implementar entidad de dominio para opcionesCobertura y garantias seleccionadas
+- [x] Implementar caso de uso de consulta de opciones de cobertura por `numeroFolio`
+- [x] Implementar caso de uso de actualizacion con validacion contra catalogo aprobado
+- [x] Implementar adaptador JPA y migracion Flyway para `cotizacion_opciones_cobertura`
+- [x] Implementar controller `/v1/quotes/{folio}/coverage-options`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de consulta de coberturas
-- [ ] Caso de uso happy path de actualizacion valida
-- [ ] Caso de uso con garantia no soportada o inactiva
-- [ ] Caso de uso con numeroFolio inexistente
-- [ ] Caso de uso con conflicto de version desactualizada
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de consulta de coberturas
+- [x] Caso de uso happy path de actualizacion valida
+- [x] Caso de uso con garantia no soportada o inactiva
+- [x] Caso de uso con numeroFolio inexistente
+- [x] Caso de uso con conflicto de version desactualizada
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
