@@ -1,6 +1,6 @@
 ---
 id: SPEC-007
-status: DRAFT
+status: APPROVED
 feature: opciones-de-cobertura
 created: 2026-04-21
 updated: 2026-04-21
