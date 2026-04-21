@@ -3,6 +3,8 @@ package com.sofka.plataforma_danos_back.common.error;
 import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoCatalogValidationException;
 import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoVersionConflictException;
+import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutValidationException;
+import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
 import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -37,6 +39,11 @@ public class ApiExceptionHandler {
         return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
     }
 
+    @ExceptionHandler(LocationsLayoutVersionConflictException.class)
+    public ResponseEntity<ProblemDetail> handleLocationsLayoutVersionConflict(LocationsLayoutVersionConflictException exception) {
+        return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
+    }
+
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public ResponseEntity<ProblemDetail> handleOptimisticLockFailure(ObjectOptimisticLockingFailureException exception) {
         return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", "La cotizacion fue modificada por otro usuario. Vuelva a consultarla e intente nuevamente.");
@@ -45,6 +52,11 @@ public class ApiExceptionHandler {
     @ExceptionHandler(GeneralInfoCatalogValidationException.class)
     public ResponseEntity<ProblemDetail> handleGeneralInfoCatalogValidation(GeneralInfoCatalogValidationException exception) {
         return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Referencia de catalogo invalida", exception.getMessage());
+    }
+
+    @ExceptionHandler(LocationsLayoutValidationException.class)
+    public ResponseEntity<ProblemDetail> handleLocationsLayoutValidation(LocationsLayoutValidationException exception) {
+        return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Layout de ubicaciones invalido", exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

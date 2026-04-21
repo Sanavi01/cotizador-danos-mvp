@@ -1,6 +1,6 @@
 ---
 id: SPEC-004
-status: DRAFT
+status: APPROVED
 feature: configuracion-de-layout-de-ubicaciones
 created: 2026-04-21
 updated: 2026-04-21
@@ -301,38 +301,38 @@ CRITERIO-2.3: Mantener la coherencia del estado del folio
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para consulta y actualizacion de layout
-- [ ] Implementar entidad de dominio para configuracionLayout y sus slots
-- [ ] Implementar caso de uso de consulta del layout por `numeroFolio`
-- [ ] Implementar caso de uso de actualizacion con versionado optimista
-- [ ] Implementar adaptador JPA y migracion Flyway para `cotizacion_layout_ubicaciones`
-- [ ] Implementar controller `/v1/quotes/{folio}/locations/layout`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear request/response DTOs para consulta y actualizacion de layout
+- [x] Implementar entidad de dominio para configuracionLayout y sus slots
+- [x] Implementar caso de uso de consulta del layout por `numeroFolio`
+- [x] Implementar caso de uso de actualizacion con versionado optimista
+- [x] Implementar adaptador JPA y migracion Flyway para `cotizacion_layout_ubicaciones`
+- [x] Implementar controller `/v1/quotes/{folio}/locations/layout`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de consulta de layout
-- [ ] Caso de uso happy path de actualizacion valida
-- [ ] Caso de uso con conflicto de version desactualizada
-- [ ] Caso de uso con `numeroFolio` inexistente
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de consulta de layout
+- [x] Caso de uso happy path de actualizacion valida
+- [x] Caso de uso con conflicto de version desactualizada
+- [x] Caso de uso con `numeroFolio` inexistente
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicio Axios para consultar y guardar la configuracionLayout
-- [ ] Crear hook para administrar carga, guardado y estado del layout
-- [ ] Implementar formulario y componentes de vista previa de ubicaciones
-- [ ] Implementar pagina de edicion y registrar ruta nueva
-- [ ] Integrar acceso desde el flujo de cotizacion y estado del folio
-- [ ] Mantener mensajes de error y estado con envelope `data` y Problem Details
+- [x] Crear servicio Axios para consultar y guardar la configuracionLayout
+- [x] Crear hook para administrar carga, guardado y estado del layout
+- [x] Implementar formulario y componentes de vista previa de ubicaciones
+- [x] Implementar pagina de edicion y registrar ruta nueva
+- [x] Integrar acceso desde el flujo de cotizacion y estado del folio
+- [x] Mantener mensajes de error y estado con envelope `data` y Problem Details
 
 #### Tests Frontend
-- [ ] Componente principal renderiza el layout existente
-- [ ] Componente dispara guardado con la version actual
-- [ ] Hook maneja carga exitosa y layout vacio
-- [ ] Hook maneja error de folio inexistente o conflicto de version
-- [ ] Pagina integra consulta, edicion y guardado
+- [x] Componente principal renderiza el layout existente
+- [x] Componente dispara guardado con la version actual
+- [x] Hook maneja carga exitosa y layout vacio
+- [x] Hook maneja error de folio inexistente o conflicto de version
+- [x] Pagina integra consulta, edicion y guardado
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` -> criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3
