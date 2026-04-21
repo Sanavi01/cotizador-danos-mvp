@@ -121,6 +121,10 @@ CRITERIO-2.3: Operar con un stub documentado
 8. Los catalogos son de solo lectura; no forman parte del alcance administrar altas o cambios de catalogos.
 9. Los giros deben incluir `claveIncendio` porque se requiere para el calculo tecnico.
 10. La vigencia de tarifas se resuelve por fecha actual dentro del rango `vigenciaDesde` y `vigenciaHasta`.
+11. Los estados globales de cotizacion se limitan a `BORRADOR`, `EN_CAPTURA`, `LISTA_PARA_CALCULO` y `CALCULADA`.
+12. El endpoint de estado puede complementar el estado global con `TieneAlertas`, `SeccionesCompletadas`, `UbicacionesCalculables`, `UbicacionesIncompletas`, `Version` y `FechaUltimaActualizacion`.
+13. La moneda oficial del dominio es `COP`; todos los calculos usan `BigDecimal`, persistencia y respuestas con 2 decimales, y redondeo `HALF_UP`.
+14. El dataset versionado del mock debe ser medio realista: 5 suscriptores, 12 agentes, 20 giros con `claveIncendio`, 4 clasificaciones de riesgo, 14 garantias, 60 codigos postales, 1 configuracion activa, matrices de tarifas por giro/zona/nivel y 2 o 3 cotizaciones semilla.
 
 ---
 
@@ -452,24 +456,24 @@ CRITERIO-2.3: Operar con un stub documentado
 ### Backend
 
 #### Implementacion
-- [ ] Definir DTOs de catalogos, validacion postal y tarifa tecnica
-- [ ] Definir puertos de salida para la referencia core mock y el consumo desde cotizaciones
-- [ ] Implementar el modulo `plataforma-core-ohs` con fixtures JSON cargados en memoria
+- [x] Definir DTOs de catalogos, validacion postal y tarifa tecnica
+- [x] Definir puertos de salida para la referencia core mock y el consumo desde cotizaciones
+- [x] Implementar el modulo `plataforma-core-ohs` con fixtures JSON cargados en memoria
 - [ ] Implementar el cliente o adaptador de consumo en `plataforma-danos-back`
-- [ ] Implementar controller(s) mock `/v1/subscribers`, `/v1/agents`, `/v1/business-lines`, `/v1/zip-codes`, `/v1/catalogs`, `/v1/folios` y documentar OpenAPI
-- [ ] Documentar respuestas exitosas con envelope `data` y errores con Problem Details
-- [ ] Agregar fixtures versionados para suscriptores, agentes, giros, CPs, garantias y tarifas
-- [ ] Incluir al menos un CP valido, un CP invalido, un agente existente y un giro con `claveIncendio`
-- [ ] Mantener `GET /v1/folios` en el core mock como contrato de secuencia
+- [x] Implementar controller(s) mock `/v1/subscribers`, `/v1/agents`, `/v1/business-lines`, `/v1/zip-codes`, `/v1/catalogs`, `/v1/folios` y documentar OpenAPI
+- [x] Documentar respuestas exitosas con envelope `data` y errores con Problem Details
+- [x] Agregar fixtures versionados para suscriptores, agentes, giros, CPs, garantias y tarifas
+- [x] Incluir al menos un CP valido, un CP invalido, un agente existente y un giro con `claveIncendio`
+- [x] Mantener `GET /v1/folios` en el core mock como contrato de secuencia
 
 #### Tests Backend
-- [ ] Caso feliz de catalogo base por tipo de referencia
-- [ ] Caso feliz de validacion y enriquecimiento territorial de codigo postal
-- [ ] Caso de CP no reconocido con `valido: false` y alertas
-- [ ] Caso feliz de lookup de tarifa tecnica
-- [ ] Controller o facade retorna `data` en 200
-- [ ] Controller o facade retorna Problem Details en error funcional
-- [ ] Contrato o test de integracion del mock core
+- [x] Caso feliz de catalogo base por tipo de referencia
+- [x] Caso feliz de validacion y enriquecimiento territorial de codigo postal
+- [x] Caso de CP no reconocido con `valido: false` y alertas
+- [x] Caso feliz de lookup de tarifa tecnica
+- [x] Controller o facade retorna `data` en 200
+- [x] Controller o facade retorna Problem Details en error funcional
+- [x] Contrato o test de integracion del mock core
 
 ### Frontend
 
