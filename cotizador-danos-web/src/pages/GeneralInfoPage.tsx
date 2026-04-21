@@ -112,16 +112,40 @@ export function GeneralInfoPage() {
   const [fieldErrors, setFieldErrors] = useState<FieldErrorState>({})
 
   useEffect(() => {
+    let cancelled = false
+
     if (folio) {
-      setDraft(createEmptyGeneralInfo(folio))
-      setFieldErrors({})
+      queueMicrotask(() => {
+        if (cancelled) {
+          return
+        }
+
+        setDraft(createEmptyGeneralInfo(folio))
+        setFieldErrors({})
+      })
+    }
+
+    return () => {
+      cancelled = true
     }
   }, [folio])
 
   useEffect(() => {
+    let cancelled = false
+
     if (generalInfo) {
-      setDraft(generalInfo)
-      setFieldErrors({})
+      queueMicrotask(() => {
+        if (cancelled) {
+          return
+        }
+
+        setDraft(generalInfo)
+        setFieldErrors({})
+      })
+    }
+
+    return () => {
+      cancelled = true
     }
   }, [generalInfo])
 
@@ -184,6 +208,9 @@ export function GeneralInfoPage() {
         <div className={styles.actions}>
           <button className={styles.secondaryButton} type="button" onClick={() => navigate(`/quotes/${encodeURIComponent(folio)}/state`)}>
             Estado del folio
+          </button>
+          <button className={styles.secondaryButton} type="button" onClick={() => navigate(`/quotes/${encodeURIComponent(folio)}/locations/layout`)}>
+            Layout de ubicaciones
           </button>
           <button className={styles.secondaryButton} type="button" onClick={() => void reloadCatalogs()} disabled={catalogsLoading}>
             {catalogsLoading ? 'Recargando catálogos...' : 'Recargar catálogos'}
