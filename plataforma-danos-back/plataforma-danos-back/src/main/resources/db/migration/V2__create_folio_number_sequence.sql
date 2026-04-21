@@ -1,0 +1,3 @@
+CREATE SEQUENCE IF NOT EXISTS public.folio_number_sequence
+    START WITH 1000001
+    INCREMENT BY 1;
