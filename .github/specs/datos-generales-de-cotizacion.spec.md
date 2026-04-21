@@ -324,22 +324,22 @@ CRITERIO-2.3: Rechazar cambios con version desactualizada
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para consulta y actualizacion de datos generales
-- [ ] Implementar entidad de dominio para la seccion general y sus value objects
-- [ ] Implementar caso de uso de consulta de datos generales por `numeroFolio`
-- [ ] Implementar caso de uso de actualizacion con validacion contra referencia core
-- [ ] Implementar adaptador JPA y migracion Flyway para `cotizacion_datos_generales`
-- [ ] Implementar controller `/v1/quotes/{folio}/general-info`
-- [ ] Documentar OpenAPI del contrato
+- [X] Crear request/response DTOs para consulta y actualizacion de datos generales
+- [X] Implementar entidad de dominio para la seccion general y sus value objects
+- [X] Implementar caso de uso de consulta de datos generales por `numeroFolio`
+- [X] Implementar caso de uso de actualizacion con validacion contra referencia core
+- [X] Implementar adaptador JPA y migracion Flyway para `cotizacion_datos_generales`
+- [X] Implementar controller `/v1/quotes/{folio}/general-info`
+- [X] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de consulta de seccion general
-- [ ] Caso de uso happy path de actualizacion valida
-- [ ] Caso de uso con `codigoAgente` invalido o catalogo inconsistente
-- [ ] Caso de uso con `numeroFolio` inexistente
-- [ ] Caso de uso con conflicto de version desactualizada
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de consulta de seccion general
+- [x] Caso de uso happy path de actualizacion valida
+- [x] Caso de uso con `codigoAgente` invalido o catalogo inconsistente
+- [x] Caso de uso con `numeroFolio` inexistente
+- [x] Caso de uso con conflicto de version desactualizada
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
