@@ -1,6 +1,6 @@
 ---
 id: SPEC-005
-status: DRAFT
+status: APPROVED
 feature: gestion-de-ubicaciones
 created: 2026-04-21
 updated: 2026-04-21
