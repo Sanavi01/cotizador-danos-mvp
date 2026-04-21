@@ -1,6 +1,6 @@
 # Requirements — Requerimientos de Negocio
 
-Este directorio contiene los requerimientos de negocio que están **listos para ser especificados** pero aún no tienen una spec generada.
+Este directorio conserva los requerimientos base del dominio. Cuando ya existe una spec, la tabla enlaza la spec correspondiente para mantener trazabilidad entre negocio y contrato técnico.
 
 ## ¿Qué es un Requerimiento?
 
@@ -38,17 +38,17 @@ requirements/<feature>.md  →  /generate-spec  →  specs/<feature>.spec.md
 .github/requirements/<nombre-feature-kebab-case>.md
 ```
 
-## Requerimientos Pendientes
+## Requerimientos con spec
 
-| Feature | Archivo | Estado |
-|---------|---------|--------|
-| Folios e Idempotencia | `folios-e-idempotencia.md` | LISTO PARA SPEC |
-| Catalogos y Validaciones Core | `catalogos-y-validaciones-core.md` | LISTO PARA SPEC |
-| Datos Generales de Cotizacion | `datos-generales-de-cotizacion.md` | LISTO PARA SPEC |
-| Configuracion de Layout de Ubicaciones | `configuracion-de-layout-de-ubicaciones.md` | LISTO PARA SPEC |
-| Gestion de Ubicaciones | `gestion-de-ubicaciones.md` | LISTO PARA SPEC |
-| Estado y Progreso de Cotizacion | `estado-y-progreso-de-cotizacion.md` | LISTO PARA SPEC |
-| Opciones de Cobertura | `opciones-de-cobertura.md` | LISTO PARA SPEC |
-| Calculo de Prima y Resultado Financiero | `calculo-de-prima-y-resultado-financiero.md` | LISTO PARA SPEC |
+| Feature | Requerimiento | Spec | Estado |
+|---------|---------------|------|--------|
+| Folios e Idempotencia | `folios-e-idempotencia.md` | [folios-e-idempotencia.spec.md](../specs/folios-e-idempotencia.spec.md) | APPROVED |
+| Catalogos y Validaciones Core | `catalogos-y-validaciones-core.md` | [catalogos-y-validaciones-core.spec.md](../specs/catalogos-y-validaciones-core.spec.md) | APPROVED |
+| Datos Generales de Cotizacion | `datos-generales-de-cotizacion.md` | [datos-generales-de-cotizacion.spec.md](../specs/datos-generales-de-cotizacion.spec.md) | APPROVED |
+| Configuracion de Layout de Ubicaciones | `configuracion-de-layout-de-ubicaciones.md` | [configuracion-de-layout-de-ubicaciones.spec.md](../specs/configuracion-de-layout-de-ubicaciones.spec.md) | APPROVED |
+| Gestion de Ubicaciones | `gestion-de-ubicaciones.md` | [gestion-de-ubicaciones.spec.md](../specs/gestion-de-ubicaciones.spec.md) | APPROVED |
+| Estado y Progreso de Cotizacion | `estado-y-progreso-de-cotizacion.md` | [estado-y-progreso-de-cotizacion.spec.md](../specs/estado-y-progreso-de-cotizacion.spec.md) | DRAFT |
+| Opciones de Cobertura | `opciones-de-cobertura.md` | [opciones-de-cobertura.spec.md](../specs/opciones-de-cobertura.spec.md) | DRAFT |
+| Calculo de Prima y Resultado Financiero | `calculo-de-prima-y-resultado-financiero.md` | [calculo-de-prima-y-resultado-financiero.spec.md](../specs/calculo-de-prima-y-resultado-financiero.spec.md) | DRAFT |
 
-> Actualiza esta tabla al agregar o procesar requerimientos.
+> Actualiza esta tabla cuando cambie el estado de una spec o se agregue un requerimiento nuevo.

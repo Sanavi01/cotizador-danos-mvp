@@ -28,24 +28,26 @@ DRAFT → APPROVED → IN_PROGRESS → IMPLEMENTED → DEPRECATED
 
 | ID | Feature | Archivo | Estado | Fecha |
 |----|---------|---------|--------|-------|
-| — | *(sin specs aún)* | — | — | — |
+| SPEC-001 | Folios e Idempotencia | [folios-e-idempotencia.spec.md](folios-e-idempotencia.spec.md) | APPROVED | 2026-04-20 |
+| SPEC-002 | Catalogos y Validaciones Core | [catalogos-y-validaciones-core.spec.md](catalogos-y-validaciones-core.spec.md) | APPROVED | 2026-04-20 |
+| SPEC-003 | Datos Generales de Cotizacion | [datos-generales-de-cotizacion.spec.md](datos-generales-de-cotizacion.spec.md) | APPROVED | 2026-04-21 |
+| SPEC-004 | Configuracion de Layout de Ubicaciones | [configuracion-de-layout-de-ubicaciones.spec.md](configuracion-de-layout-de-ubicaciones.spec.md) | APPROVED | 2026-04-21 |
+| SPEC-005 | Gestion de Ubicaciones | [gestion-de-ubicaciones.spec.md](gestion-de-ubicaciones.spec.md) | APPROVED | 2026-04-21 |
+| SPEC-006 | Estado y Progreso de Cotizacion | [estado-y-progreso-de-cotizacion.spec.md](estado-y-progreso-de-cotizacion.spec.md) | DRAFT | 2026-04-21 |
+| SPEC-007 | Opciones de Cobertura | [opciones-de-cobertura.spec.md](opciones-de-cobertura.spec.md) | DRAFT | 2026-04-21 |
+| SPEC-008 | Calculo de Prima y Resultado Financiero | [calculo-de-prima-y-resultado-financiero.spec.md](calculo-de-prima-y-resultado-financiero.spec.md) | DRAFT | 2026-04-21 |
 
 > Actualizar esta tabla cada vez que se crea o cambia el estado de una spec.
 
-## Requerimientos pendientes de spec
+## Specs en revisión
 
-Los siguientes requerimientos están en `.github/requirements/` listos para convertirse en spec:
+Las siguientes specs existen pero todavía no tienen implementación completa:
 
-| Requerimiento | Archivo | Acción |
-|---------------|---------|--------|
-| Folios e Idempotencia | `.github/requirements/folios-e-idempotencia.md` | `/generate-spec folios-e-idempotencia` |
-| Catalogos y Validaciones Core | `.github/requirements/catalogos-y-validaciones-core.md` | `/generate-spec catalogos-y-validaciones-core` |
-| Datos Generales de Cotizacion | `.github/requirements/datos-generales-de-cotizacion.md` | `/generate-spec datos-generales-de-cotizacion` |
-| Configuracion de Layout de Ubicaciones | `.github/requirements/configuracion-de-layout-de-ubicaciones.md` | `/generate-spec configuracion-de-layout-de-ubicaciones` |
-| Gestion de Ubicaciones | `.github/requirements/gestion-de-ubicaciones.md` | `/generate-spec gestion-de-ubicaciones` |
-| Estado y Progreso de Cotizacion | `.github/requirements/estado-y-progreso-de-cotizacion.md` | `/generate-spec estado-y-progreso-de-cotizacion` |
-| Opciones de Cobertura | `.github/requirements/opciones-de-cobertura.md` | `/generate-spec opciones-de-cobertura` |
-| Calculo de Prima y Resultado Financiero | `.github/requirements/calculo-de-prima-y-resultado-financiero.md` | `/generate-spec calculo-de-prima-y-resultado-financiero` |
+| Feature | Archivo | Estado | Siguiente paso |
+|---------|---------|--------|----------------|
+| Estado y Progreso de Cotizacion | [estado-y-progreso-de-cotizacion.spec.md](estado-y-progreso-de-cotizacion.spec.md) | DRAFT | Aprobar para implementación |
+| Opciones de Cobertura | [opciones-de-cobertura.spec.md](opciones-de-cobertura.spec.md) | DRAFT | Aprobar para implementación |
+| Calculo de Prima y Resultado Financiero | [calculo-de-prima-y-resultado-financiero.spec.md](calculo-de-prima-y-resultado-financiero.spec.md) | DRAFT | Aprobar para implementación |
 
 ## Cómo crear una spec nueva
 

@@ -19,7 +19,7 @@ related-specs: ["SPEC-001"]
 ## 1. REQUERIMIENTOS
 
 ### Descripcion
-Esta funcionalidad define el contrato de una referencia core separada dentro del monorepo, implementada como mock/stub con fixtures en memoria. El backend de cotizacion consume ese contrato, mientras el modulo core lo expone, para resolver catalogos, validaciones territoriales y datos tecnicos reutilizables durante la captura y el calculo de una cotizacion.
+Esta funcionalidad define el contrato de una referencia core separada dentro del monorepo, implementada como mock/stub con fixtures en memoria. El backend de cotizacion consume ese contrato, mientras el modulo core lo expone, para resolver catalogos, validaciones territoriales, parametros comerciales y datos tecnicos reutilizables durante la captura y el calculo de una cotizacion.
 
 ### Requerimiento de Negocio
 Fuente principal: `.github/requirements/catalogos-y-validaciones-core.md`.
@@ -29,7 +29,7 @@ Resumen del requerimiento base:
 - Validar codigos postales y enriquecer la direccion territorial.
 - Exponer catalogos de clasificacion de riesgo y garantias.
 - Generar folios desde la referencia core cuando aplique.
-- Resolver tarifas y factores tecnicos requeridos por el calculo.
+- Resolver parametros, tarifas y factores tecnicos requeridos por el calculo.
 - Implementar consumo y exposicion de los endpoints mock en esta entrega.
 - Mantener contrato documentado con datos versionados dentro del repositorio.
 
@@ -124,7 +124,8 @@ CRITERIO-2.3: Operar con un stub documentado
 11. Los estados globales de cotizacion se limitan a `BORRADOR`, `EN_CAPTURA`, `LISTA_PARA_CALCULO` y `CALCULADA`.
 12. El endpoint de estado puede complementar el estado global con progreso por seccion, `resumenUbicaciones`, `tieneAlertas`, `version` y `fechaUltimaActualizacion`.
 13. La moneda oficial del dominio es `COP`; todos los calculos usan `BigDecimal`, persistencia y respuestas con 2 decimales, y redondeo `HALF_UP`.
-14. El dataset versionado del mock debe ser medio realista: 5 suscriptores, 12 agentes, 20 giros con `claveIncendio`, 4 clasificaciones de riesgo, 14 garantias, 60 codigos postales, 1 configuracion activa, matrices de tarifas por giro/zona/nivel y 2 o 3 cotizaciones semilla.
+14. `GET /v1/calculation-parameters/active` expone la configuracion activa de calculo usada por el MVP, incluyendo `recargoAdministracion`, `margenComercial`, `moneda` y `roundingMode`.
+15. El dataset versionado del mock debe ser medio realista: 5 suscriptores, 12 agentes, 20 giros con `claveIncendio`, 4 clasificaciones de riesgo, 14 garantias, 60 codigos postales, 1 configuracion activa, matrices de tarifas por giro/zona/nivel y 2 o 3 cotizaciones semilla.
 
 ---
 
@@ -144,6 +145,7 @@ CRITERIO-2.3: Operar con un stub documentado
 | `CodigoPostal` | JSON en memoria | nueva | relacion territorial y validacion postal |
 | `ClasificacionRiesgo` | JSON en memoria | nueva | catalogo tecnico de riesgo |
 | `GarantiaCatalogo` | JSON en memoria | nueva | catalogo tecnico de garantias |
+| `CalculationParameters` | JSON en memoria | nueva | configuracion comercial y tecnica activa del calculo MVP |
 | `TarifaTecnica` | JSON en memoria | nueva | tasas y factores tecnicos para el calculo |
 
 #### Campos del modelo
@@ -152,6 +154,11 @@ CRITERIO-2.3: Operar con un stub documentado
 | `codigo` | string | si | unico, no vacio | identificador de catalogo |
 | `nombre` | string | si | maximo 120 caracteres | descripcion legible para UI |
 | `activo` | boolean | si | solo items activos por defecto | determina si el item se ofrece en captura |
+| `version` | string | si en `CalculationParameters` | no vacio | version vigente del set de parametros del calculo |
+| `fechaCorte` | datetime | si en `CalculationParameters` | timestamp valido | fecha efectiva del set de parametros activo |
+| `recargoAdministracion` | decimal | si en `CalculationParameters` | porcentaje entre 0 y 1 | recargo comercial aplicado sobre la prima neta |
+| `margenComercial` | decimal | si en `CalculationParameters` | porcentaje entre 0 y 1 | margen comercial adicional aplicado sobre la prima neta |
+| `roundingMode` | string | si en `CalculationParameters` | `HALF_UP` para el MVP | redondeo canonico para montos monetarios |
 | `claveIncendio` | string | si en giro | no vacio | clave tecnica necesaria para el calculo en giros |
 | `zipCode` | string | si | formato local valido | codigo postal consultado o validado |
 | `municipio` | string | si | no vacio | municipio asociado al CP |
@@ -351,6 +358,27 @@ CRITERIO-2.3: Operar con un stub documentado
   }
   ```
 
+#### GET /v1/calculation-parameters/active
+- **Descripcion**: devuelve la configuracion activa de calculo comercial y tecnico consumida por el cotizador.
+- **Auth requerida**: no / sesion demo si aplica.
+- **Response 200**:
+  ```json
+  {
+    "data": {
+      "codigo": "CALC-2026-CORE",
+      "activo": true,
+      "descripcion": "Parametros activos de calculo",
+      "version": "1.0.0",
+      "fechaCorte": "2026-04-20T00:00:00Z",
+      "recargoAdministracion": 0.12,
+      "margenComercial": 0.05,
+      "moneda": "COP",
+      "roundingMode": "HALF_UP"
+    }
+  }
+  ```
+- **Notas**: contrato de solo lectura para el MVP; el backend de cotizacion lo usa para construir `primaComercial` y exponer `calculationParameterVersion`.
+
 #### GET /v1/tariffs/{tariffKey}
 - **Descripcion**: resuelve la tarifa tecnica por clave compuesta de giro, zona tecnica y garantia.
 - **Auth requerida**: no / sesion demo si aplica.
@@ -433,6 +461,7 @@ CRITERIO-2.3: Operar con un stub documentado
 | `validateZipCode(payload)` | `services/referenceCoreService.ts` | `POST /v1/zip-codes/validate` |
 | `listRiskClassification()` | `services/referenceCoreService.ts` | `GET /v1/catalogs/risk-classification` |
 | `listGuarantees()` | `services/referenceCoreService.ts` | `GET /v1/catalogs/guarantees` |
+| `getActiveCalculationParameters()` | `services/referenceCoreService.ts` | `GET /v1/calculation-parameters/active` |
 | `getTariff(tariffKey)` | `services/referenceCoreService.ts` | `GET /v1/tariffs/{tariffKey}` |
 | `getFolioSequence()` | `services/referenceCoreService.ts` | `GET /v1/folios` |
 

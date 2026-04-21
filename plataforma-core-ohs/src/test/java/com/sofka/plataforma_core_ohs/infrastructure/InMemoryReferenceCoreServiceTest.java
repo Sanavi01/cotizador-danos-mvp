@@ -19,6 +19,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sofka.plataforma_core_ohs.application.ReferenceCoreNotFoundException;
 import com.sofka.plataforma_core_ohs.domain.AlertSeverity;
 import com.sofka.plataforma_core_ohs.domain.CatalogItem;
+import com.sofka.plataforma_core_ohs.domain.CalculationParameters;
 import com.sofka.plataforma_core_ohs.domain.FolioSequence;
 import com.sofka.plataforma_core_ohs.domain.TariffRecord;
 import com.sofka.plataforma_core_ohs.domain.ValidationAlert;
@@ -115,6 +116,21 @@ class InMemoryReferenceCoreServiceTest {
 				() -> assertEquals("COP", tariffRecord.moneda()),
 				() -> assertNotNull(tariffRecord.vigenciaDesde()),
 				() -> assertNotNull(tariffRecord.vigenciaHasta())
+		);
+	}
+
+	@Test
+	void getActiveCalculationParameters_returnsCommercialFactorsFromFixtures() {
+		CalculationParameters parameters = service.getActiveCalculationParameters();
+
+		assertAll(
+				() -> assertEquals("CALC-2026-CORE", parameters.codigo()),
+				() -> assertTrue(parameters.activo()),
+				() -> assertEquals("1.0.0", parameters.version()),
+				() -> assertEquals(new BigDecimal("0.12"), parameters.recargoAdministracion()),
+				() -> assertEquals(new BigDecimal("0.05"), parameters.margenComercial()),
+				() -> assertEquals("COP", parameters.moneda()),
+				() -> assertEquals("HALF_UP", parameters.roundingMode())
 		);
 	}
 

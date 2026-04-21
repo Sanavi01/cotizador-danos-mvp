@@ -36,6 +36,14 @@ export function QuoteStatePage() {
           >
             Layout de ubicaciones
           </button>
+          <button
+            className={styles.secondaryButton}
+            type="button"
+            onClick={() => navigate(`/quotes/${encodeURIComponent(folio ?? '')}/locations`)}
+            disabled={!folio}
+          >
+            Ubicaciones
+          </button>
           <button className={styles.secondaryButton} type="button" onClick={() => navigate('/cotizador')}>
             Volver
           </button>

@@ -1,18 +1,7 @@
 package com.sofka.plataforma_core_ohs.web;
 
-import com.sofka.plataforma_core_ohs.application.ReferenceCoreService;
-import com.sofka.plataforma_core_ohs.application.TariffUpsertCommand;
-import com.sofka.plataforma_core_ohs.domain.CatalogItem;
-import com.sofka.plataforma_core_ohs.domain.FolioSequence;
-import com.sofka.plataforma_core_ohs.domain.TariffRecord;
-import com.sofka.plataforma_core_ohs.domain.ZipCodeInfo;
-import com.sofka.plataforma_core_ohs.web.dto.TariffUpsertRequest;
-import com.sofka.plataforma_core_ohs.web.dto.ZipCodeValidationRequest;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +12,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.sofka.plataforma_core_ohs.application.ReferenceCoreService;
+import com.sofka.plataforma_core_ohs.application.TariffUpsertCommand;
+import com.sofka.plataforma_core_ohs.domain.CalculationParameters;
+import com.sofka.plataforma_core_ohs.domain.CatalogItem;
+import com.sofka.plataforma_core_ohs.domain.FolioSequence;
+import com.sofka.plataforma_core_ohs.domain.TariffRecord;
+import com.sofka.plataforma_core_ohs.domain.ZipCodeInfo;
+import com.sofka.plataforma_core_ohs.web.dto.TariffUpsertRequest;
+import com.sofka.plataforma_core_ohs.web.dto.ZipCodeValidationRequest;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @RestController
 @Validated
@@ -67,10 +70,16 @@ public class ReferenceCoreController {
 		return ResponseEntity.ok(ApiResponse.of(referenceCoreService.listGuarantees()));
 	}
 
+	@GetMapping("/calculation-parameters/active")
+	@Operation(summary = "Obtener parametros activos de calculo")
+	public ResponseEntity<ApiResponse<CalculationParameters>> getActiveCalculationParameters() {
+		return ResponseEntity.ok(ApiResponse.of(referenceCoreService.getActiveCalculationParameters()));
+	}
+
 	@GetMapping("/zip-codes/{zipCode}")
 	@Operation(summary = "Consultar codigo postal")
 	public ResponseEntity<ApiResponse<ZipCodeInfo>> getZipCode(
-			@PathVariable @NotBlank(message = "El codigo postal es obligatorio")
+			@PathVariable("zipCode") @NotBlank(message = "El codigo postal es obligatorio")
 			@Pattern(regexp = "\\d{6}", message = "El codigo postal debe tener 6 digitos") String zipCode) {
 		return ResponseEntity.ok(ApiResponse.of(referenceCoreService.getZipCode(zipCode)));
 	}
@@ -90,7 +99,7 @@ public class ReferenceCoreController {
 	@GetMapping("/tariffs/{tariffKey}")
 	@Operation(summary = "Resolver tarifa tecnica")
 	public ResponseEntity<ApiResponse<TariffRecord>> getTariff(
-			@PathVariable @NotBlank(message = "La clave de tarifa es obligatoria") String tariffKey) {
+			@PathVariable("tariffKey") @NotBlank(message = "La clave de tarifa es obligatoria") String tariffKey) {
 		return ResponseEntity.ok(ApiResponse.of(referenceCoreService.getTariff(tariffKey)));
 	}
 

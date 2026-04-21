@@ -6,7 +6,7 @@ created: 2026-04-21
 updated: 2026-04-21
 author: spec-generator
 version: "1.0"
-related-specs: ["SPEC-001", "SPEC-002", "SPEC-003", "SPEC-004", "SPEC-005"]
+related-specs: ["SPEC-001", "SPEC-002", "SPEC-003", "SPEC-004", "SPEC-005", "SPEC-007", "SPEC-008"]
 ---
 
 # Spec: Estado y Progreso de Cotizacion
@@ -19,7 +19,7 @@ related-specs: ["SPEC-001", "SPEC-002", "SPEC-003", "SPEC-004", "SPEC-005"]
 ## 1. REQUERIMIENTOS
 
 ### Descripcion
-Esta funcionalidad permite consultar el `estadoCotizacion` y el progreso operativo de una cotizacion para orientar al usuario sobre que secciones estan completas, cuales faltan y que ubicaciones ya pueden calcularse. Este endpoint es un resumen operativo del agregado, no una copia completa de la cotizacion. La respuesta consolida el avance del agregado sin modificarlo, exponiendo `version`, `fechaUltimaActualizacion`, `progreso`, `resumenUbicaciones`, alertas vigentes y, cuando exista, un resumen financiero compacto.
+Esta funcionalidad permite consultar el `estadoCotizacion` y el progreso operativo de una cotizacion para orientar al usuario sobre que secciones estan completas, cuales faltan y que ubicaciones ya pueden calcularse. Este endpoint es un resumen operativo del agregado, no una copia completa de la cotizacion. La respuesta consolida el avance del agregado sin modificarlo, exponiendo `version`, `fechaUltimaActualizacion`, `progreso`, `resumenUbicaciones`, alertas vigentes y, cuando exista, un resumen financiero compacto con `estadoCalculo`, totales vigentes, conteo de ubicaciones calculadas y la version del parametro de calculo usado.
 
 ### Requerimiento de Negocio
 Fuente principal: `.github/requirements/estado-y-progreso-de-cotizacion.md`.
@@ -123,11 +123,13 @@ CRITERIO-2.3: Reflejar una ubicacion incompleta sin bloquear el folio
 5. `progreso` expone las secciones `datosGenerales`, `layoutUbicaciones`, `ubicaciones` y `opcionesCobertura` con valores `COMPLETED` o `INCOMPLETE`.
 6. `progreso.ubicaciones` se mide contra los slots esperados del layout. Si no hay layout, si `totalEsperado = 0`, o si existe al menos un slot en `EMPTY`, `INCOMPLETE` o `INVALID`, el progreso es `INCOMPLETE`.
 7. `progreso.ubicaciones` es `COMPLETED` solo cuando `totalEsperado > 0` y todos los slots normalizados estan en `VALID` o `CALCULABLE`.
-8. `LISTA_PARA_CALCULO` requiere `datosGenerales = COMPLETED` y al menos una ubicacion en estado `CALCULABLE`.
-9. Una ubicacion con alertas puede bloquear su propio calculo, pero no bloquea el folio completo.
-10. Si existe resultado financiero, `/state` solo expone un resumen compacto del mismo; el desglose tecnico completo vive en `POST /calculate`.
-11. Las respuestas exitosas deben usar envelope `data`; los errores deben publicarse como Problem Details.
-12. El endpoint de estado no debe recalcular primas; solo debe reflejar el avance ya consolidado.
+8. `progreso.opcionesCobertura` es `COMPLETED` solo cuando la seccion existe y contiene al menos una `garantiaCode` activa seleccionada; en cualquier otro caso es `INCOMPLETE`.
+9. `readyToCalculate` solo puede ser `true` cuando `datosGenerales = COMPLETED`, `layoutUbicaciones = COMPLETED`, `opcionesCobertura = COMPLETED` y existe al menos una ubicacion en estado `CALCULABLE` con al menos una garantia derivada seleccionada.
+10. Una ubicacion con alertas puede bloquear su propio calculo, pero no bloquea el folio completo.
+11. Si existe resultado financiero, `/state` solo expone un resumen compacto del mismo con `primaNeta`, `primaComercial`, `ubicacionesCalculadas`, `ubicacionesNoCalculables`, `estadoCalculo`, `calculatedAt` y `calculationParameterVersion`; el desglose tecnico y comercial completo vive en `POST /calculate`.
+12. El resumen financiero de `/state` siempre se construye desde el snapshot persistido del ultimo calculo; este endpoint no re-resuelve tarifas ni factores del fixture.
+13. Las respuestas exitosas deben usar envelope `data`; los errores deben publicarse como Problem Details.
+14. El endpoint de estado no debe recalcular primas; solo debe reflejar el avance ya consolidado.
 
 ---
 
@@ -167,6 +169,13 @@ CRITERIO-2.3: Reflejar una ubicacion incompleta sin bloquear el folio
 | `tieneAlertas` | boolean | si | derivado | Indica si existe al menos una alerta vigente |
 | `readyToCalculate` | boolean | si | derivado | Indica si el folio ya puede pasar a `LISTA_PARA_CALCULO` |
 | `resultadoFinanciero` | object | no | resumen compacto | Totales del ultimo calculo vigente |
+| `resultadoFinanciero.primaNeta` | decimal | si cuando existe | precision monetaria COP | Prima neta vigente del ultimo calculo |
+| `resultadoFinanciero.primaComercial` | decimal | si cuando existe | precision monetaria COP | Prima comercial vigente del ultimo calculo |
+| `resultadoFinanciero.ubicacionesCalculadas` | integer | si cuando existe | mayor o igual a 0 | Cantidad de ubicaciones que entraron al ultimo calculo |
+| `resultadoFinanciero.ubicacionesNoCalculables` | integer | si cuando existe | mayor o igual a 0 | Cantidad de ubicaciones excluidas del ultimo calculo por bloqueo o falta de insumos |
+| `resultadoFinanciero.estadoCalculo` | string | si cuando existe | enum: `CALCULADO`, `PARCIAL`, `RECHAZADO` | Resultado operativo del ultimo calculo persistido |
+| `resultadoFinanciero.calculatedAt` | datetime | si cuando existe | auto-actualizado | Momento en que se consolido el ultimo resultado financiero |
+| `resultadoFinanciero.calculationParameterVersion` | string | si cuando existe | no vacio | Version del `calculationParameters` del fixture usada en el ultimo calculo |
 
 #### Indices / Constraints
 - El endpoint utiliza `numeroFolio` como llave de consulta y se apoya en el indice unico ya existente de `cotizaciones_danos`.
@@ -245,6 +254,49 @@ CRITERIO-2.3: Reflejar una ubicacion incompleta sin bloquear el folio
     }
   }
   ```
+- **Response 200 con resumen financiero vigente**:
+  ```json
+  {
+    "data": {
+      "numeroFolio": "1000001",
+      "estadoCotizacion": "CALCULADA",
+      "version": 5,
+      "fechaUltimaActualizacion": "2026-04-21T00:00:00Z",
+      "progreso": {
+        "datosGenerales": "COMPLETED",
+        "layoutUbicaciones": "COMPLETED",
+        "ubicaciones": "INCOMPLETE",
+        "opcionesCobertura": "COMPLETED"
+      },
+      "resumenUbicaciones": {
+        "totalEsperado": 3,
+        "totalActual": 3,
+        "calculables": 1,
+        "incompletas": 1,
+        "invalidas": 1,
+        "conAlertas": 2
+      },
+      "tieneAlertas": true,
+      "alertasVigentes": [
+        {
+          "codigo": "UBICACION_SIN_ZIP",
+          "mensaje": "La ubicacion no tiene codigo postal valido.",
+          "severidad": "Warning"
+        }
+      ],
+      "readyToCalculate": false,
+      "resultadoFinanciero": {
+        "primaNeta": 60000.00,
+        "primaComercial": 70200.00,
+        "ubicacionesCalculadas": 1,
+        "ubicacionesNoCalculables": 2,
+        "estadoCalculo": "PARCIAL",
+        "calculatedAt": "2026-04-21T00:00:00Z",
+        "calculationParameterVersion": "1.0.0"
+      }
+    }
+  }
+  ```
 - **Response 404**: numeroFolio inexistente.
 
 ### Diseno Frontend
@@ -281,10 +333,11 @@ CRITERIO-2.3: Reflejar una ubicacion incompleta sin bloquear el folio
 - La consulta no debe mutar el agregado ni disparar recalculos; solo agrega contexto operativo para la UI.
 - La SPA ya cuenta con la pantalla de estado; esta spec formaliza el contrato y la logica de agregacion que alimenta dicha vista.
 - Esta spec es la fuente de verdad del contrato `GET /v1/quotes/{folio}/state`.
+- `readyToCalculate` debe quedar alineado con la elegibilidad minima de `SPEC-007` y `SPEC-008`: no basta con tener una ubicacion `CALCULABLE`; tambien debe existir configuracion global de coberturas activa.
 - La respuesta del backend debe seguir el envelope `data` y los errores deben mapearse a Problem Details, compatible con el manejo ya existente en la app.
 
 ### Notas de Implementacion
-> La regla principal es no confundir estado con edicion. El endpoint debe leer el avance real del agregado, consolidar secciones y alertas, y devolver una fotografia consistente para la UI. La normalizacion de slots de ubicacion se hace contra `configuracionLayout`: si falta un slot esperado, se trata como `EMPTY`. El endpoint nunca devuelve el breakdown tecnico completo del calculo.
+> La regla principal es no confundir estado con edicion. El endpoint debe leer el avance real del agregado, consolidar secciones y alertas, y devolver una fotografia consistente para la UI. La normalizacion de slots de ubicacion se hace contra `configuracionLayout`: si falta un slot esperado, se trata como `EMPTY`. El endpoint nunca devuelve el breakdown tecnico completo del calculo ni vuelve a consultar matrices del fixture; solo resume el snapshot persistido por `POST /calculate`.
 
 ---
 

@@ -1,0 +1,406 @@
+.card {
+  padding: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 1.35rem;
+  background: rgba(8, 15, 30, 0.72);
+  box-shadow: 0 22px 50px rgba(2, 6, 23, 0.3);
+  backdrop-filter: blur(18px);
+  display: grid;
+  gap: 1rem;
+}
+
+.header,
+.sectionHeader,
+.preview {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.kicker {
+  margin: 0 0 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #67e8f9;
+  font-size: 0.82rem;
+}
+
+.card h2,
+.sectionHeader h3 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #f8fafc;
+}
+
+.helper,
+.note,
+.meta {
+  margin: 0.5rem 0 0;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.guide {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(103, 232, 249, 0.18);
+  background: linear-gradient(180deg, rgba(11, 24, 45, 0.92), rgba(15, 23, 42, 0.76));
+  display: grid;
+  gap: 0.85rem;
+}
+
+.guideHeader {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.guideHeader h3 {
+  margin: 0;
+  color: #f8fafc;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.guideGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.catalogPanel {
+  padding: 0.95rem;
+  border-radius: 1rem;
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.catalogHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.catalogHeader strong {
+  color: #f8fafc;
+}
+
+.catalogTag {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(103, 232, 249, 0.16);
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+
+.catalogFallback {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.catalogList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.7rem;
+  max-height: 15rem;
+  overflow: auto;
+}
+
+.quickChoices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.7rem;
+}
+
+.catalogButton {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 0.95rem;
+  background: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.2rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.catalogButtonSelected {
+  border-color: rgba(103, 232, 249, 0.75);
+  box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.25);
+}
+
+.catalogButton:focus-visible,
+.catalogButton:hover {
+  outline: none;
+  border-color: rgba(103, 232, 249, 0.55);
+}
+
+.catalogCode {
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #67e8f9;
+}
+
+.catalogName {
+  color: #f8fafc;
+}
+
+.catalogMeta {
+  color: rgba(226, 232, 240, 0.74);
+}
+
+.guideItem {
+  padding: 0.85rem;
+  border-radius: 0.95rem;
+  background: rgba(148, 163, 184, 0.1);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.guideItem p {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.guideItemHeader {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.guideItemHeader strong {
+  color: #f8fafc;
+}
+
+.guideState {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.guideReady {
+  color: #d1fae5;
+  background: rgba(16, 185, 129, 0.22);
+}
+
+.guidePending {
+  color: #fef3c7;
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.badge,
+.inlineHint {
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge {
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.inlineHint {
+  color: #e2e8f0;
+  background: rgba(148, 163, 184, 0.14);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.field span {
+  font-weight: 700;
+}
+
+.fieldHint {
+  color: rgba(148, 163, 184, 0.88);
+  font-size: 0.8rem;
+}
+
+.zipReference {
+  align-self: start;
+}
+
+.zipActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.zipCard {
+  padding: 0.9rem;
+  border-radius: 1rem;
+  background: rgba(15, 23, 42, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.zipGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.zipLabel {
+  margin: 0 0 0.2rem;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #67e8f9;
+}
+
+.zipValue {
+  margin: 0;
+  color: #f8fafc;
+}
+
+.referenceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.referenceItem {
+  padding: 0.85rem;
+  border-radius: 0.95rem;
+  background: rgba(148, 163, 184, 0.1);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.referenceItem strong {
+  color: #f8fafc;
+}
+
+.referenceItem p {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.82);
+}
+
+.readonlyValue {
+  padding: 0.95rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.9rem;
+  padding: 0.95rem 1rem;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.field input::placeholder,
+.field select::placeholder,
+.field textarea::placeholder {
+  color: rgba(148, 163, 184, 0.72);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid rgba(103, 232, 249, 0.45);
+  outline-offset: 2px;
+}
+
+.section {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.preview {
+  padding: 0.95rem;
+  border-radius: 1rem;
+  background: rgba(148, 163, 184, 0.1);
+  flex-direction: column;
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+}
+
+.primaryButton {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.95rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #08111f;
+  background: linear-gradient(135deg, #67e8f9, #a7f3d0);
+}
+
+.secondaryButton {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #e2e8f0;
+  background: rgba(148, 163, 184, 0.14);
+}
+
+.success {
+  background: rgba(16, 185, 129, 0.2);
+}
+
+.info {
+  background: rgba(96, 165, 250, 0.2);
+}
+
+.warning {
+  background: rgba(245, 158, 11, 0.2);
+}
+
+.danger {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+.neutral {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+@media (max-width: 720px) {
+  .header,
+  .catalogHeader,
+  .sectionHeader,
+  .preview {
+    flex-direction: column;
+  }
+
+  .guideGrid,
+  .referenceGrid,
+  .zipGrid,
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .actions,
+  .actions button {
+    width: 100%;
+  }
+}

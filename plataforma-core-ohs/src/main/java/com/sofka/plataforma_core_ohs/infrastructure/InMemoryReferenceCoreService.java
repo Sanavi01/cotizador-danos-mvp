@@ -1,20 +1,22 @@
 package com.sofka.plataforma_core_ohs.infrastructure;
 
+import java.time.Clock;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.sofka.plataforma_core_ohs.application.ReferenceCoreBadRequestException;
 import com.sofka.plataforma_core_ohs.application.ReferenceCoreNotFoundException;
 import com.sofka.plataforma_core_ohs.application.ReferenceCoreService;
 import com.sofka.plataforma_core_ohs.application.TariffUpsertCommand;
 import com.sofka.plataforma_core_ohs.domain.AlertSeverity;
+import com.sofka.plataforma_core_ohs.domain.CalculationParameters;
 import com.sofka.plataforma_core_ohs.domain.CatalogItem;
 import com.sofka.plataforma_core_ohs.domain.FolioSequence;
 import com.sofka.plataforma_core_ohs.domain.TariffRecord;
 import com.sofka.plataforma_core_ohs.domain.ValidationAlert;
 import com.sofka.plataforma_core_ohs.domain.ZipCodeInfo;
-import org.springframework.stereotype.Service;
-
-import java.time.Clock;
-import java.time.OffsetDateTime;
-import java.util.List;
 
 @Service
 public class InMemoryReferenceCoreService implements ReferenceCoreService {
@@ -50,6 +52,11 @@ public class InMemoryReferenceCoreService implements ReferenceCoreService {
 	@Override
 	public List<CatalogItem> listGuarantees() {
 		return fixtureStore.guarantees();
+	}
+
+	@Override
+	public CalculationParameters getActiveCalculationParameters() {
+		return fixtureStore.calculationParameters();
 	}
 
 	@Override

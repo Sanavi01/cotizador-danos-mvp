@@ -230,6 +230,13 @@ export function LocationsLayoutPage() {
           >
             Datos generales
           </button>
+          <button
+            className={styles.secondaryButton}
+            type="button"
+            onClick={() => navigate(`/quotes/${encodeURIComponent(folio)}/locations`)}
+          >
+            Ubicaciones
+          </button>
           <button className={styles.secondaryButton} type="button" onClick={() => void handleRefresh()} disabled={loading}>
             {loading ? 'Consultando...' : 'Actualizar layout'}
           </button>

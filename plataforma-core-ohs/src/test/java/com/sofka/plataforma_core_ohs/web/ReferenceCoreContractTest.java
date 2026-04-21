@@ -45,6 +45,19 @@ class ReferenceCoreContractTest {
 	}
 
 	@Test
+	void getActiveCalculationParameters_returns200WithCommercialFactors() throws Exception {
+		mockMvc.perform(get("/v1/calculation-parameters/active"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentTypeCompatibleWith(APPLICATION_JSON))
+				.andExpect(jsonPath("$.data.codigo").value("CALC-2026-CORE"))
+				.andExpect(jsonPath("$.data.version").value("1.0.0"))
+				.andExpect(jsonPath("$.data.recargoAdministracion").value(0.12))
+				.andExpect(jsonPath("$.data.margenComercial").value(0.05))
+				.andExpect(jsonPath("$.data.moneda").value("COP"))
+				.andExpect(jsonPath("$.data.roundingMode").value("HALF_UP"));
+	}
+
+	@Test
 	void getZipCode_returns200WithTerritorialEnrichmentAndWarningAlert() throws Exception {
 		mockMvc.perform(get("/v1/zip-codes/{zipCode}", "999999"))
 				.andExpect(status().isOk())

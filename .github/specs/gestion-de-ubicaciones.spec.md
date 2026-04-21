@@ -1,6 +1,6 @@
 ---
 id: SPEC-005
-status: DRAFT
+status: APPROVED
 feature: gestion-de-ubicaciones
 created: 2026-04-21
 updated: 2026-04-21
@@ -11,7 +11,7 @@ related-specs: ["SPEC-001", "SPEC-002", "SPEC-004"]
 
 # Spec: Gestion de Ubicaciones
 
-> **Estado:** `DRAFT` -> aprobar con `status: APPROVED` antes de iniciar implementacion.
+> **Estado:** `APPROVED`.
 > **Ciclo de vida:** DRAFT -> APPROVED -> IN_PROGRESS -> IMPLEMENTED -> DEPRECATED
 
 ---
@@ -196,8 +196,8 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
 | `municipio` | string | no | derivado o capturado | Municipio asociado |
 | `colonia` | string | no | derivado o capturado | Colonia o barrio |
 | `ciudad` | string | no | derivado o capturado | Ciudad de la ubicacion |
-| `tipoConstructivo` | string | no | libre documentado | Tipo constructivo del riesgo |
-| `nivel` | integer | no | mayor o igual a 1 si aplica | Nivel o piso de la ubicacion |
+| `tipoConstructivo` | string | no | codigo canonico preferido del core (`MAMP`, `MIX`, `MET`); puede persistirse otro valor documentado si requiere homologacion | Tipo constructivo del riesgo |
+| `nivel` | integer | no | mayor o igual a 1 si aplica; representa el piso real persistido. Las bandas tecnicas `BAS`, `MED`, `ALT` del fixture son referencia de UX y tarifa, no el campo persistido | Nivel o piso de la ubicacion |
 | `anioConstruccion` | integer | no | rango razonable | Anio de construccion |
 | `giro` | object | no | puede ser `null` en draft | Giro tecnico de la ubicacion |
 | `giro.codigo` | string | no | debe existir en catalogo cuando se informa | Codigo del giro |
@@ -240,17 +240,17 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
           "nombreUbicacion": "Planta principal",
           "direccion": "Calle 100 # 10-10",
           "codigoPostal": "110111",
-          "estado": "Bogota D.C.",
-          "municipio": "Bogota",
+          "estado": "Cundinamarca",
+          "municipio": "Bogota D.C.",
           "colonia": "Chapinero",
-          "ciudad": "Bogota",
-          "tipoConstructivo": "CONCRETO",
+          "ciudad": "Bogota D.C.",
+          "tipoConstructivo": "MAMP",
           "nivel": 1,
           "anioConstruccion": 2018,
           "giro": {
             "codigo": "GIRO-001",
-            "nombre": "Manufactura ligera",
-            "claveIncendio": "CI-001"
+            "nombre": "Oficinas",
+            "claveIncendio": "INC-OFI"
           },
           "garantias": [
             {
@@ -260,8 +260,8 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
             }
           ],
           "zonaCatastrofica": {
-            "zonaTev": "Z-TEV-01",
-            "zonaFhm": "Z-FHM-01"
+            "zonaTev": "ZTEV-1",
+            "zonaFhm": "ZFHM-1"
           },
           "estadoValidacion": "CALCULABLE",
           "alertasBloqueantes": [],
@@ -327,19 +327,22 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
         "nombreUbicacion": "Planta principal",
         "direccion": "Calle 100 # 10-10",
         "codigoPostal": "110111",
-        "estado": null,
-        "municipio": null,
-        "colonia": null,
-        "ciudad": null,
-        "tipoConstructivo": "CONCRETO",
+        "estado": "Cundinamarca",
+        "municipio": "Bogota D.C.",
+        "colonia": "Chapinero",
+        "ciudad": "Bogota D.C.",
+        "tipoConstructivo": "MAMP",
         "nivel": 1,
         "anioConstruccion": 2018,
         "giro": {
           "codigo": "GIRO-001",
-          "nombre": "Manufactura ligera",
-          "claveIncendio": "CI-001"
+          "nombre": "Oficinas",
+          "claveIncendio": "INC-OFI"
         },
-        "zonaCatastrofica": null
+        "zonaCatastrofica": {
+          "zonaTev": "ZTEV-1",
+          "zonaFhm": "ZFHM-1"
+        }
       },
       {
         "indice": 2,
@@ -372,17 +375,17 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
           "nombreUbicacion": "Planta principal",
           "direccion": "Calle 100 # 10-10",
           "codigoPostal": "110111",
-          "estado": "Bogota D.C.",
-          "municipio": "Bogota",
+          "estado": "Cundinamarca",
+          "municipio": "Bogota D.C.",
           "colonia": "Chapinero",
-          "ciudad": "Bogota",
-          "tipoConstructivo": "CONCRETO",
+          "ciudad": "Bogota D.C.",
+          "tipoConstructivo": "MAMP",
           "nivel": 1,
           "anioConstruccion": 2018,
           "giro": {
             "codigo": "GIRO-001",
-            "nombre": "Manufactura ligera",
-            "claveIncendio": "CI-001"
+            "nombre": "Oficinas",
+            "claveIncendio": "INC-OFI"
           },
           "garantias": [
             {
@@ -392,8 +395,8 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
             }
           ],
           "zonaCatastrofica": {
-            "zonaTev": "Z-TEV-01",
-            "zonaFhm": "Z-FHM-01"
+            "zonaTev": "ZTEV-1",
+            "zonaFhm": "ZFHM-1"
           },
           "estadoValidacion": "CALCULABLE",
           "alertasBloqueantes": [],
@@ -420,11 +423,12 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
   {
     "version": 3,
     "changes": {
-      "codigoPostal": "050001",
+      "codigoPostal": "050002",
+      "tipoConstructivo": "MIX",
       "giro": {
         "codigo": "GIRO-002",
-        "nombre": "Bodega",
-        "claveIncendio": "CI-010"
+        "nombre": "Bodegas",
+        "claveIncendio": "INC-BOD"
       }
     }
   }
@@ -440,23 +444,23 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
         "indice": 2,
         "nombreUbicacion": "Bodega secundaria",
         "direccion": null,
-        "codigoPostal": "050001",
+        "codigoPostal": "050002",
         "estado": "Antioquia",
         "municipio": "Medellin",
-        "colonia": null,
+        "colonia": "El Poblado",
         "ciudad": "Medellin",
-        "tipoConstructivo": null,
+        "tipoConstructivo": "MIX",
         "nivel": null,
         "anioConstruccion": null,
         "giro": {
           "codigo": "GIRO-002",
-          "nombre": "Bodega",
-          "claveIncendio": "CI-010"
+          "nombre": "Bodegas",
+          "claveIncendio": "INC-BOD"
         },
         "garantias": [],
         "zonaCatastrofica": {
-          "zonaTev": "Z-TEV-02",
-          "zonaFhm": "Z-FHM-01"
+          "zonaTev": "ZTEV-2",
+          "zonaFhm": "ZFHM-1"
         },
         "estadoValidacion": "VALID",
         "alertasBloqueantes": []
@@ -515,7 +519,7 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
 | Componente | Archivo | Props principales | Descripcion |
 |------------|---------|------------------|-------------|
 | `LocationsList` | `components/LocationsList.tsx` | `locations, onEdit, onSelect` | Lista las ubicaciones registradas y su estado |
-| `LocationForm` | `components/LocationForm.tsx` | `value, onChange, onSubmit, loading` | Formulario para crear o editar una ubicacion |
+| `LocationForm` | `components/LocationForm.tsx` | `value, onChange, onSubmit, loading, businessLines, zipCodeValidation, onZipCodeSelect` | Formulario para crear o editar una ubicacion |
 | `LocationSummaryCard` | `components/LocationSummaryCard.tsx` | `summary` | Tarjeta con conteos, alertas y estado operativo |
 | `ValidationAlertList` | `components/ValidationAlertList.tsx` | `alerts` | Reutilizado para mostrar alertasBloqueantes |
 | `IdempotencyNotice` | `components/IdempotencyNotice.tsx` | `message, variant` | Reutilizado para mensajes de carga o error |
@@ -549,6 +553,7 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
 - La respuesta de estado de cotizacion debe poder reflejar las ubicaciones esperadas por layout, incluyendo slots faltantes normalizados como `EMPTY`.
 - `garantias[]` se expone en el read model como proyeccion derivada de la seccion global de coberturas; no se edita por ubicacion en esta capability.
 - La SPA debe agregar una vista de lista, detalle y edicion puntual para la captura de ubicaciones.
+- La captura frontend debe priorizar seleccion guiada desde catalogos y recomendaciones del fixture antes que entrada manual para `codigoPostal`, `giro` y referencias tecnicas reutilizables.
 - La respuesta del backend debe seguir el envelope `data` y los errores deben mapearse a Problem Details, compatible con el manejo ya existente en la app.
 
 ### Notas de Implementacion
@@ -564,42 +569,42 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para lista, guardado masivo, edicion puntual y resumen de ubicaciones
-- [ ] Implementar entidad de dominio para ubicaciones, alertas y estado de validacion
-- [ ] Implementar caso de uso de consulta de ubicaciones por `numeroFolio`
-- [ ] Implementar caso de uso de guardado masivo con validacion de layout y catalogos
-- [ ] Implementar caso de uso de edicion puntual por `indice`
-- [ ] Implementar caso de uso de resumen operativo de ubicaciones
-- [ ] Implementar adaptador JPA y migracion Flyway para `cotizacion_ubicaciones`
-- [ ] Implementar controller `/v1/quotes/{folio}/locations` y `/summary`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear request/response DTOs para lista, guardado masivo, edicion puntual y resumen de ubicaciones
+- [x] Implementar entidad de dominio para ubicaciones, alertas y estado de validacion
+- [x] Implementar caso de uso de consulta de ubicaciones por `numeroFolio`
+- [x] Implementar caso de uso de guardado masivo con validacion de layout y catalogos
+- [x] Implementar caso de uso de edicion puntual por `indice`
+- [x] Implementar caso de uso de resumen operativo de ubicaciones
+- [x] Implementar adaptador JPA y migracion Flyway para `cotizacion_ubicaciones`
+- [x] Implementar controller `/v1/quotes/{folio}/locations` y `/summary`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de consulta de ubicaciones
-- [ ] Caso de uso happy path de guardado de una o varias ubicaciones
-- [ ] Caso de uso con edicion puntual por indice
-- [ ] Caso de uso con ubicacion inexistente
-- [ ] Caso de uso con ubicacion incompleta y alertasBloqueantes
-- [ ] Caso de uso con conflicto de version desactualizada
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de consulta de ubicaciones
+- [x] Caso de uso happy path de guardado de una o varias ubicaciones
+- [x] Caso de uso con edicion puntual por indice
+- [x] Caso de uso con ubicacion inexistente
+- [x] Caso de uso con ubicacion incompleta y alertasBloqueantes
+- [x] Caso de uso con conflicto de version desactualizada
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicio Axios para consultar, guardar, editar y resumir ubicaciones
-- [ ] Crear hooks para lista, detalle y resumen operativo
-- [ ] Implementar lista de ubicaciones y formulario de edicion
-- [ ] Implementar pagina de detalle por indice y registrar ruta nueva
-- [ ] Integrar alertasBloqueantes y estadoValidacion en la UI
-- [ ] Mantener mensajes de error y estado con envelope `data` y Problem Details
+- [x] Crear servicio Axios para consultar, guardar, editar y resumir ubicaciones
+- [x] Crear hooks para lista, detalle y resumen operativo
+- [x] Implementar lista de ubicaciones y formulario de edicion
+- [x] Implementar pagina de detalle por indice y registrar ruta nueva
+- [x] Integrar alertasBloqueantes y estadoValidacion en la UI
+- [x] Mantener mensajes de error y estado con envelope `data` y Problem Details
 
 #### Tests Frontend
-- [ ] Componente principal renderiza lista de ubicaciones
-- [ ] Componente dispara guardado masivo y edicion puntual
-- [ ] Hook maneja carga exitosa y lista vacia
-- [ ] Hook maneja error de folio inexistente o conflicto de version
-- [ ] Pagina integra consulta, edicion y resumen
+- [x] Componente principal renderiza lista de ubicaciones
+- [x] Componente dispara guardado masivo y edicion puntual
+- [x] Hook maneja carga exitosa y lista vacia
+- [x] Hook maneja error de folio inexistente o conflicto de version
+- [x] Pagina integra consulta, edicion y resumen
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` -> criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3, 3.1, 3.2

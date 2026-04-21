@@ -69,7 +69,11 @@
     "activo": true,
     "descripcion": "Parametros activos de calculo",
     "version": "1.0.0",
-    "fechaCorte": "2026-04-20T00:00:00Z"
+    "fechaCorte": "2026-04-20T00:00:00Z",
+    "recargoAdministracion": 0.12,
+    "margenComercial": 0.05,
+    "moneda": "COP",
+    "roundingMode": "HALF_UP"
   },
   "zipCodes": [
     { "zipCode": "110111", "valido": true, "municipio": "Bogota D.C.", "estado": "Cundinamarca", "coloniaBarrio": "Chapinero", "zona_tev": "ZTEV-1", "zona_fhm": "ZFHM-1", "alertas": [] },
