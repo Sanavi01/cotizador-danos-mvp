@@ -13,26 +13,49 @@ const mockedGetQuoteState = vi.mocked(getQuoteState)
 describe('useQuoteState', () => {
   beforeEach(() => {
     mockedGetQuoteState.mockReset()
+    vi.clearAllMocks()
   })
 
   it('loads the current quote state on mount and refreshes it on demand', async () => {
     const initialState = {
       numeroFolio: '1000001',
       estadoCotizacion: 'BORRADOR',
-      tieneAlertas: false,
-      seccionesCompletadas: [],
-      ubicacionesCalculables: 0,
-      ubicacionesIncompletas: 0,
       version: 0,
       fechaUltimaActualizacion: '2026-04-20T00:00:00Z',
+      progreso: {
+        datosGenerales: 'INCOMPLETE',
+        layoutUbicaciones: 'INCOMPLETE',
+        ubicaciones: 'INCOMPLETE',
+        opcionesCobertura: 'INCOMPLETE',
+      },
+      resumenUbicaciones: {
+        totalEsperado: 0,
+        totalActual: 0,
+        calculables: 0,
+        incompletas: 0,
+        invalidas: 0,
+        conAlertas: 0,
+      },
+      tieneAlertas: false,
+      alertasVigentes: [],
+      readyToCalculate: false,
+      resultadoFinanciero: null,
     }
 
     const refreshedState = {
       ...initialState,
       estadoCotizacion: 'EN_CAPTURA',
       version: 1,
-      ubicacionesCalculables: 2,
-      seccionesCompletadas: ['datos generales'],
+      progreso: {
+        ...initialState.progreso,
+        datosGenerales: 'COMPLETED',
+      },
+      resumenUbicaciones: {
+        ...initialState.resumenUbicaciones,
+        totalEsperado: 3,
+        totalActual: 2,
+        calculables: 1,
+      },
     }
 
     mockedGetQuoteState.mockResolvedValueOnce(initialState).mockResolvedValueOnce(refreshedState)
@@ -52,6 +75,7 @@ describe('useQuoteState', () => {
     })
 
     expect(mockedGetQuoteState).toHaveBeenCalledWith('1000001')
+    expect(mockedGetQuoteState).toHaveBeenCalledTimes(2)
   })
 
   it('reports a service error when the folio cannot be loaded', async () => {

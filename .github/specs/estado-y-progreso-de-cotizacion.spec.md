@@ -349,37 +349,37 @@ CRITERIO-2.3: Reflejar una ubicacion incompleta sin bloquear el folio
 ### Backend
 
 #### Implementacion
-- [ ] Crear response DTO consolidado para estado y progreso del folio
-- [ ] Implementar caso de uso de consulta del estado consolidado
-- [ ] Implementar la derivacion de `progreso` por seccion funcional
-- [ ] Implementar la derivacion de `resumenUbicaciones` contra slots esperados del layout
-- [ ] Implementar controller `/v1/quotes/{folio}/state`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear response DTO consolidado para estado y progreso del folio
+- [x] Implementar caso de uso de consulta del estado consolidado
+- [x] Implementar la derivacion de `progreso` por seccion funcional
+- [x] Implementar la derivacion de `resumenUbicaciones` contra slots esperados del layout
+- [x] Implementar controller `/v1/quotes/{folio}/state`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de estado consolidado
-- [ ] Caso de uso con folio recien creado en BORRADOR
-- [ ] Caso de uso con ubicaciones incompletas y alertas vigentes
-- [ ] Caso de uso con numeroFolio inexistente
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de estado consolidado
+- [x] Caso de uso con folio recien creado en BORRADOR
+- [x] Caso de uso con ubicaciones incompletas y alertas vigentes
+- [x] Caso de uso con numeroFolio inexistente
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicio Axios para consultar el estado consolidado
-- [ ] Crear hook para refrescar estado y progreso
-- [ ] Implementar componentes de progreso, secciones y alertas
-- [ ] Integrar la pagina de estado existente con el nuevo contrato
-- [ ] Mantener la navegacion hacia cotizador, layout y ubicaciones si aplica
-- [ ] Mantener mensajes de error y estado con envelope `data` y Problem Details
+- [x] Crear servicio Axios para consultar el estado consolidado
+- [x] Crear hook para refrescar estado y progreso
+- [x] Implementar componentes de progreso, secciones y alertas
+- [x] Integrar la pagina de estado existente con el nuevo contrato
+- [x] Mantener la navegacion hacia cotizador, layout y ubicaciones si aplica
+- [x] Mantener mensajes de error y estado con envelope `data` y Problem Details
 
 #### Tests Frontend
-- [ ] Componente principal renderiza estado y progreso
-- [ ] Componente dispara refresco del estado
-- [ ] Hook maneja carga exitosa y estado BORRADOR
-- [ ] Hook maneja error de folio inexistente
-- [ ] Pagina integra resumen, secciones y alertas
+- [x] Componente principal renderiza estado y progreso
+- [x] Componente dispara refresco del estado
+- [x] Hook maneja carga exitosa y estado BORRADOR
+- [x] Hook maneja error de folio inexistente
+- [x] Pagina integra resumen, secciones y alertas
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` -> criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3

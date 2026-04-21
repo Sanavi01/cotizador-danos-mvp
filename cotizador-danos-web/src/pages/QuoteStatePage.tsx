@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { IdempotencyNotice } from '../components/IdempotencyNotice'
+import { QuoteProgressCard } from '../components/QuoteProgressCard'
 import { useQuoteState } from '../hooks/useQuoteState'
 import styles from './QuoteStatePage.module.css'
 
@@ -11,11 +12,11 @@ export function QuoteStatePage() {
   return (
     <main className={styles.page}>
       <section className={styles.header}>
-        <div>
+        <div className={styles.headerCopy}>
           <p className={styles.kicker}>Estado de cotización</p>
           <h1>{folio ?? 'Folio no disponible'}</h1>
           <p>
-            Consulta el avance persistido del folio para continuar la captura sin perder la información ya registrada.
+            Consulta el avance persistido del folio sin recalcular primas ni alterar el agregado.
           </p>
         </div>
 
@@ -55,41 +56,7 @@ export function QuoteStatePage() {
 
       {error ? <IdempotencyNotice variant="warning" message={error} /> : null}
 
-      {state ? (
-        <section className={styles.grid}>
-          <article className={styles.card}>
-            <span className={styles.cardLabel}>Estado actual</span>
-            <strong className={styles.cardValue}>{state.estadoCotizacion}</strong>
-            <p className={styles.cardMeta}>Versión {state.version}</p>
-          </article>
-
-          <article className={styles.card}>
-            <span className={styles.cardLabel}>Alertas</span>
-            <strong className={styles.cardValue}>{state.tieneAlertas ? 'Sí' : 'No'}</strong>
-            <p className={styles.cardMeta}>Ubicaciones incompletas: {state.ubicacionesIncompletas}</p>
-          </article>
-
-          <article className={styles.card}>
-            <span className={styles.cardLabel}>Ubicaciones</span>
-            <strong className={styles.cardValue}>{state.ubicacionesCalculables}</strong>
-            <p className={styles.cardMeta}>Calculables en este momento</p>
-          </article>
-
-          <article className={styles.cardWide}>
-            <span className={styles.cardLabel}>Secciones completadas</span>
-            {state.seccionesCompletadas.length > 0 ? (
-              <ul className={styles.list}>
-                {state.seccionesCompletadas.map((section) => (
-                  <li key={section}>{section}</li>
-                ))}
-              </ul>
-            ) : (
-              <p className={styles.emptyState}>Aún no hay secciones completadas.</p>
-            )}
-            <p className={styles.cardMeta}>Actualizado {new Date(state.fechaUltimaActualizacion).toLocaleString('es-CO')}</p>
-          </article>
-        </section>
-      ) : null}
+      <QuoteProgressCard state={state} />
     </main>
   )
 }
