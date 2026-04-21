@@ -1,12 +1,15 @@
 package com.sofka.plataforma_danos_back.common.error;
 
 import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyConflictException;
+import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoCatalogValidationException;
+import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
 import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +30,21 @@ public class ApiExceptionHandler {
     @ExceptionHandler(QuoteNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleQuoteNotFound(QuoteNotFoundException exception) {
         return problemDetail(HttpStatus.NOT_FOUND, "Cotizacion no encontrada", exception.getMessage());
+    }
+
+    @ExceptionHandler(GeneralInfoVersionConflictException.class)
+    public ResponseEntity<ProblemDetail> handleGeneralInfoVersionConflict(GeneralInfoVersionConflictException exception) {
+        return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
+    }
+
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    public ResponseEntity<ProblemDetail> handleOptimisticLockFailure(ObjectOptimisticLockingFailureException exception) {
+        return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", "La cotizacion fue modificada por otro usuario. Vuelva a consultarla e intente nuevamente.");
+    }
+
+    @ExceptionHandler(GeneralInfoCatalogValidationException.class)
+    public ResponseEntity<ProblemDetail> handleGeneralInfoCatalogValidation(GeneralInfoCatalogValidationException exception) {
+        return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Referencia de catalogo invalida", exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

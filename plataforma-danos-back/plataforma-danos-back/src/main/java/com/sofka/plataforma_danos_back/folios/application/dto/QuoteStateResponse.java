@@ -26,11 +26,15 @@ public record QuoteStateResponse(
         Instant fechaUltimaActualizacion
 ) {
     public static QuoteStateResponse from(Cotizacion cotizacion) {
+        return from(cotizacion, false);
+    }
+
+    public static QuoteStateResponse from(Cotizacion cotizacion, boolean generalInfoCompleted) {
         return new QuoteStateResponse(
                 cotizacion.numeroFolio(),
                 cotizacion.estadoCotizacion(),
                 false,
-                List.of(),
+                generalInfoCompleted ? List.of("datos-generales") : List.of(),
                 0,
                 0,
                 cotizacion.version(),
