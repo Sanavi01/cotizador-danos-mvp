@@ -1,6 +1,6 @@
 ---
 id: SPEC-006
-status: DRAFT
+status: APPROVED
 feature: estado-y-progreso-de-cotizacion
 created: 2026-04-21
 updated: 2026-04-21
@@ -11,7 +11,7 @@ related-specs: ["SPEC-001", "SPEC-002", "SPEC-003", "SPEC-004", "SPEC-005", "SPE
 
 # Spec: Estado y Progreso de Cotizacion
 
-> **Estado:** `DRAFT` -> aprobar con `status: APPROVED` antes de iniciar implementacion.
+> **Estado:** `APPROVED` -> aprobar con `status: APPROVED` antes de iniciar implementacion.
 > **Ciclo de vida:** DRAFT -> APPROVED -> IN_PROGRESS -> IMPLEMENTED -> DEPRECATED
 
 ---
