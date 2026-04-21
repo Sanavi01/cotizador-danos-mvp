@@ -564,25 +564,25 @@ CRITERIO-3.2: Recuperar el resumen de ubicaciones con alertas
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para lista, guardado masivo, edicion puntual y resumen de ubicaciones
-- [ ] Implementar entidad de dominio para ubicaciones, alertas y estado de validacion
-- [ ] Implementar caso de uso de consulta de ubicaciones por `numeroFolio`
-- [ ] Implementar caso de uso de guardado masivo con validacion de layout y catalogos
-- [ ] Implementar caso de uso de edicion puntual por `indice`
-- [ ] Implementar caso de uso de resumen operativo de ubicaciones
-- [ ] Implementar adaptador JPA y migracion Flyway para `cotizacion_ubicaciones`
-- [ ] Implementar controller `/v1/quotes/{folio}/locations` y `/summary`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear request/response DTOs para lista, guardado masivo, edicion puntual y resumen de ubicaciones
+- [x] Implementar entidad de dominio para ubicaciones, alertas y estado de validacion
+- [x] Implementar caso de uso de consulta de ubicaciones por `numeroFolio`
+- [x] Implementar caso de uso de guardado masivo con validacion de layout y catalogos
+- [x] Implementar caso de uso de edicion puntual por `indice`
+- [x] Implementar caso de uso de resumen operativo de ubicaciones
+- [x] Implementar adaptador JPA y migracion Flyway para `cotizacion_ubicaciones`
+- [x] Implementar controller `/v1/quotes/{folio}/locations` y `/summary`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de consulta de ubicaciones
-- [ ] Caso de uso happy path de guardado de una o varias ubicaciones
-- [ ] Caso de uso con edicion puntual por indice
-- [ ] Caso de uso con ubicacion inexistente
-- [ ] Caso de uso con ubicacion incompleta y alertasBloqueantes
-- [ ] Caso de uso con conflicto de version desactualizada
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de consulta de ubicaciones
+- [x] Caso de uso happy path de guardado de una o varias ubicaciones
+- [x] Caso de uso con edicion puntual por indice
+- [x] Caso de uso con ubicacion inexistente
+- [x] Caso de uso con ubicacion incompleta y alertasBloqueantes
+- [x] Caso de uso con conflicto de version desactualizada
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
