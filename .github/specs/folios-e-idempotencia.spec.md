@@ -272,12 +272,12 @@ CRITERIO-2.3: Consultar un folio recien creado sin mas datos
 ### Frontend
 
 #### Implementación
-- [ ] Crear servicio Axios para creacion de folios y consulta de estado
-- [ ] Crear hook para administrar el flujo de creacion idempotente
-- [ ] Crear pagina de inicio o apertura de folio
-- [ ] Crear pagina de estado del folio
-- [ ] Mostrar mensajes claros de reintento, folio creado y errores funcionales
-- [ ] Registrar rutas necesarias en la SPA
+- [x] Crear servicio Axios para creacion de folios y consulta de estado
+- [x] Crear hook para administrar el flujo de creacion idempotente
+- [x] Crear pagina de inicio o apertura de folio
+- [x] Crear pagina de estado del folio
+- [x] Mostrar mensajes claros de reintento, folio creado y errores funcionales
+- [x] Registrar rutas necesarias en la SPA
 
 #### Tests Frontend
 - [ ] Componente crítico renderiza el numeroFolio creado
