@@ -9,13 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
-
 import static org.mockito.ArgumentMatchers.any;
+import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.sofka.plataforma_danos_back.folios.domain.AlertaBloqueante;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoValidacion;
@@ -77,6 +76,25 @@ class JpaUbicacionCotizacionRepositoryAdapterTest {
         assertEquals(77L, result.get().id());
         assertEquals("110111", result.get().detalle().codigoPostal());
         assertEquals(EstadoValidacion.CALCULABLE, result.get().estadoValidacion());
+    }
+
+    @Test
+    void findAllByCotizacionId_mapsEntitiesToDomainInOrder() {
+        JpaUbicacionCotizacionRepositoryAdapter adapter = new JpaUbicacionCotizacionRepositoryAdapter(repository);
+        UbicacionCotizacionEntity first = UbicacionCotizacionEntity.fromDomain(validLocation(1));
+        UbicacionCotizacionEntity second = UbicacionCotizacionEntity.fromDomain(invalidLocation(2));
+        ReflectionTestUtils.setField(first, "id", 77L);
+        ReflectionTestUtils.setField(second, "id", 78L);
+
+        when(repository.findAllByCotizacionIdOrderByIndiceAsc(13L)).thenReturn(List.of(first, second));
+
+        List<UbicacionCotizacion> result = adapter.findAllByCotizacionId(13L);
+
+        assertEquals(2, result.size());
+        assertEquals(1, result.get(0).detalle().indice());
+        assertEquals(2, result.get(1).detalle().indice());
+        assertEquals(EstadoValidacion.CALCULABLE, result.get(0).estadoValidacion());
+        assertEquals(EstadoValidacion.INVALID, result.get(1).estadoValidacion());
     }
 
     @Test

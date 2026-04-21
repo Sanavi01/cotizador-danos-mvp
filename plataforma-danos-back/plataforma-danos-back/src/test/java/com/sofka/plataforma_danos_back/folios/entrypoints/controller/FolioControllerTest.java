@@ -1,5 +1,26 @@
 package com.sofka.plataforma_danos_back.folios.entrypoints.controller;
 
+import java.time.Instant;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isNull;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sofka.plataforma_danos_back.common.error.ApiExceptionHandler;
@@ -13,27 +34,6 @@ import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyC
 import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
 import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoCotizacion;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.Instant;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @ExtendWith(MockitoExtension.class)
 class FolioControllerTest {
@@ -140,13 +140,32 @@ class FolioControllerTest {
         Instant now = Instant.parse("2026-04-20T00:00:00Z");
         QuoteStateResponse response = new QuoteStateResponse(
                 "1000001",
-                EstadoCotizacion.BORRADOR,
-                false,
-                List.of(),
-                0,
-                0,
+                EstadoCotizacion.EN_CAPTURA,
                 0L,
-                now
+                now,
+                new QuoteStateResponse.ProgresoCotizacion(
+                        QuoteStateResponse.EstadoSeccion.COMPLETED,
+                        QuoteStateResponse.EstadoSeccion.COMPLETED,
+                        QuoteStateResponse.EstadoSeccion.INCOMPLETE,
+                        QuoteStateResponse.EstadoSeccion.COMPLETED
+                ),
+                new QuoteStateResponse.ResumenUbicaciones(3, 2, 1, 0, 1, 1),
+                true,
+                List.of(new QuoteStateResponse.AlertaVigente(
+                        "UBICACION_SIN_ZIP",
+                        "La ubicacion no tiene codigo postal valido.",
+                        "Warning"
+                )),
+                false,
+                new QuoteStateResponse.ResultadoFinancieroResumen(
+                        new java.math.BigDecimal("60000.00"),
+                        new java.math.BigDecimal("70200.00"),
+                        1,
+                        2,
+                        QuoteStateResponse.EstadoCalculoResumen.PARCIAL,
+                        now,
+                        "1.0.0"
+                )
         );
 
         when(getQuoteStateUseCase.handle("1000001")).thenReturn(response);
@@ -154,12 +173,21 @@ class FolioControllerTest {
         mockMvc.perform(get("/v1/quotes/{folio}/state", "1000001"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.numeroFolio").value("1000001"))
-                .andExpect(jsonPath("$.data.estadoCotizacion").value("BORRADOR"))
-                .andExpect(jsonPath("$.data.tieneAlertas").value(false))
-                .andExpect(jsonPath("$.data.ubicacionesCalculables").value(0))
-                .andExpect(jsonPath("$.data.ubicacionesIncompletas").value(0))
+                .andExpect(jsonPath("$.data.estadoCotizacion").value("EN_CAPTURA"))
                 .andExpect(jsonPath("$.data.version").value(0))
-                .andExpect(jsonPath("$.data.fechaUltimaActualizacion").value("2026-04-20T00:00:00Z"));
+                .andExpect(jsonPath("$.data.fechaUltimaActualizacion").value("2026-04-20T00:00:00Z"))
+                .andExpect(jsonPath("$.data.progreso.datosGenerales").value("COMPLETED"))
+                .andExpect(jsonPath("$.data.progreso.layoutUbicaciones").value("COMPLETED"))
+                .andExpect(jsonPath("$.data.progreso.ubicaciones").value("INCOMPLETE"))
+                .andExpect(jsonPath("$.data.progreso.opcionesCobertura").value("COMPLETED"))
+                .andExpect(jsonPath("$.data.resumenUbicaciones.totalEsperado").value(3))
+                .andExpect(jsonPath("$.data.resumenUbicaciones.totalActual").value(2))
+                .andExpect(jsonPath("$.data.resumenUbicaciones.calculables").value(1))
+                .andExpect(jsonPath("$.data.tieneAlertas").value(true))
+                .andExpect(jsonPath("$.data.alertasVigentes[0].codigo").value("UBICACION_SIN_ZIP"))
+                .andExpect(jsonPath("$.data.readyToCalculate").value(false))
+                .andExpect(jsonPath("$.data.resultadoFinanciero.estadoCalculo").value("PARCIAL"))
+                .andExpect(jsonPath("$.data.resultadoFinanciero.calculationParameterVersion").value("1.0.0"));
     }
 
     @Test
