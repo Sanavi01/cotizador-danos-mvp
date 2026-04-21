@@ -1,59 +1,111 @@
 package com.sofka.plataforma_danos_back.folios.application.dto;
 
-import com.sofka.plataforma_danos_back.folios.domain.Cotizacion;
-import com.sofka.plataforma_danos_back.folios.domain.EstadoCotizacion;
-import io.swagger.v3.oas.annotations.media.Schema;
-
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sofka.plataforma_danos_back.folios.domain.EstadoCotizacion;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@JsonInclude(JsonInclude.Include.ALWAYS)
 public record QuoteStateResponse(
-    @Schema(description = "Numero de folio consultado", example = "1000001")
+        @Schema(description = "Numero de folio consultado", example = "1000001")
         String numeroFolio,
-    @Schema(description = "Estado actual de la cotizacion", example = "BORRADOR")
+        @Schema(description = "Estado global consolidado de la cotizacion", example = "EN_CAPTURA")
         EstadoCotizacion estadoCotizacion,
-    @Schema(description = "Indica si el folio tiene alertas bloqueantes", example = "false")
-        boolean tieneAlertas,
-    @Schema(description = "Secciones ya completadas en la captura")
-        List<String> seccionesCompletadas,
-    @Schema(description = "Cantidad de ubicaciones calculables", example = "0")
-        int ubicacionesCalculables,
-    @Schema(description = "Cantidad de ubicaciones incompletas", example = "0")
-        int ubicacionesIncompletas,
-    @Schema(description = "Version optimista de la entidad persistida", example = "0")
+        @Schema(description = "Version optimista vigente del agregado", example = "4")
         Long version,
-    @Schema(description = "Marca de tiempo de la ultima actualizacion logica", example = "2026-04-20T00:00:00Z")
-        Instant fechaUltimaActualizacion
+        @Schema(description = "Marca de tiempo de la ultima actualizacion logica", example = "2026-04-21T00:00:00Z")
+        Instant fechaUltimaActualizacion,
+        @Schema(description = "Estado de completitud por seccion funcional")
+        ProgresoCotizacion progreso,
+        @Schema(description = "Conteos operativos de ubicaciones esperadas y persistidas")
+        ResumenUbicaciones resumenUbicaciones,
+        @Schema(description = "Indica si existe al menos una alerta vigente", example = "true")
+        boolean tieneAlertas,
+        @Schema(description = "Alertas vigentes agregadas desde las ubicaciones y secciones")
+        List<AlertaVigente> alertasVigentes,
+        @Schema(description = "Indica si el folio ya cumple la elegibilidad minima para calcular", example = "false")
+        boolean readyToCalculate,
+        @Schema(description = "Resumen compacto del ultimo resultado financiero persistido cuando exista")
+        ResultadoFinancieroResumen resultadoFinanciero
 ) {
-    public static QuoteStateResponse from(Cotizacion cotizacion) {
-        return from(cotizacion, false, false);
+    public QuoteStateResponse {
+        alertasVigentes = alertasVigentes == null ? List.of() : List.copyOf(alertasVigentes);
     }
 
-    public static QuoteStateResponse from(Cotizacion cotizacion, boolean generalInfoCompleted) {
-        return from(cotizacion, generalInfoCompleted, false);
+    @Schema(description = "Estado de completitud de una seccion funcional")
+    public enum EstadoSeccion {
+        COMPLETED,
+        INCOMPLETE
     }
 
-    public static QuoteStateResponse from(
-            Cotizacion cotizacion,
-            boolean generalInfoCompleted,
-            boolean locationsLayoutCompleted
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    public record ProgresoCotizacion(
+            @Schema(description = "Estado de la seccion de datos generales", example = "COMPLETED")
+            EstadoSeccion datosGenerales,
+            @Schema(description = "Estado de la seccion de layout de ubicaciones", example = "COMPLETED")
+            EstadoSeccion layoutUbicaciones,
+            @Schema(description = "Estado de la captura de ubicaciones contra el layout", example = "INCOMPLETE")
+            EstadoSeccion ubicaciones,
+            @Schema(description = "Estado de la seccion global de opciones de cobertura", example = "INCOMPLETE")
+            EstadoSeccion opcionesCobertura
     ) {
-        java.util.ArrayList<String> seccionesCompletadas = new java.util.ArrayList<>();
-        if (generalInfoCompleted) {
-            seccionesCompletadas.add("datos-generales");
-        }
-        if (locationsLayoutCompleted) {
-            seccionesCompletadas.add("configuracion-layout");
-        }
-        return new QuoteStateResponse(
-                cotizacion.numeroFolio(),
-                cotizacion.estadoCotizacion(),
-                false,
-                List.copyOf(seccionesCompletadas),
-                0,
-                0,
-                cotizacion.version(),
-                cotizacion.fechaUltimaActualizacion()
-        );
+    }
+
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    public record ResumenUbicaciones(
+            @Schema(description = "Cantidad de slots esperados segun el layout", example = "3")
+            int totalEsperado,
+            @Schema(description = "Cantidad de ubicaciones realmente persistidas", example = "2")
+            int totalActual,
+            @Schema(description = "Cantidad de ubicaciones calculables", example = "1")
+            int calculables,
+            @Schema(description = "Cantidad de ubicaciones incompletas", example = "0")
+            int incompletas,
+            @Schema(description = "Cantidad de ubicaciones invalidas", example = "1")
+            int invalidas,
+            @Schema(description = "Cantidad de ubicaciones con alertas vigentes", example = "1")
+            int conAlertas
+    ) {
+    }
+
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    public record AlertaVigente(
+            @Schema(description = "Codigo canonico de la alerta", example = "UBICACION_SIN_ZIP")
+            String codigo,
+            @Schema(description = "Mensaje legible de la alerta", example = "La ubicacion no tiene codigo postal valido.")
+            String mensaje,
+            @Schema(description = "Severidad de la alerta", example = "Warning")
+            String severidad
+    ) {
+    }
+
+    @Schema(description = "Estado operativo del ultimo calculo persistido")
+    public enum EstadoCalculoResumen {
+        CALCULADO,
+        PARCIAL,
+        RECHAZADO
+    }
+
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    public record ResultadoFinancieroResumen(
+            @Schema(description = "Prima neta vigente del ultimo calculo", example = "60000.00")
+            BigDecimal primaNeta,
+            @Schema(description = "Prima comercial vigente del ultimo calculo", example = "70200.00")
+            BigDecimal primaComercial,
+            @Schema(description = "Cantidad de ubicaciones calculadas en el ultimo snapshot", example = "1")
+            int ubicacionesCalculadas,
+            @Schema(description = "Cantidad de ubicaciones excluidas o no calculables en el ultimo snapshot", example = "2")
+            int ubicacionesNoCalculables,
+            @Schema(description = "Estado operativo del ultimo calculo", example = "PARCIAL")
+            EstadoCalculoResumen estadoCalculo,
+            @Schema(description = "Momento en que se consolido el ultimo resultado financiero", example = "2026-04-21T00:00:00Z")
+            Instant calculatedAt,
+            @Schema(description = "Version del calculationParameters usada por el ultimo calculo", example = "1.0.0")
+            String calculationParameterVersion
+    ) {
     }
 }

@@ -1,17 +1,5 @@
 package com.sofka.plataforma_danos_back.folios.entrypoints.controller;
 
-import com.sofka.plataforma_danos_back.common.http.ApiResponse;
-import com.sofka.plataforma_danos_back.folios.application.CreateFolioUseCase;
-import com.sofka.plataforma_danos_back.folios.application.GetQuoteStateUseCase;
-import com.sofka.plataforma_danos_back.folios.application.dto.CreateFolioRequest;
-import com.sofka.plataforma_danos_back.folios.application.dto.CreateFolioResponse;
-import com.sofka.plataforma_danos_back.folios.application.dto.FolioCreationResult;
-import com.sofka.plataforma_danos_back.folios.application.dto.QuoteStateResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sofka.plataforma_danos_back.common.http.ApiResponse;
+import com.sofka.plataforma_danos_back.folios.application.CreateFolioUseCase;
+import com.sofka.plataforma_danos_back.folios.application.GetQuoteStateUseCase;
+import com.sofka.plataforma_danos_back.folios.application.dto.CreateFolioRequest;
+import com.sofka.plataforma_danos_back.folios.application.dto.CreateFolioResponse;
+import com.sofka.plataforma_danos_back.folios.application.dto.FolioCreationResult;
+import com.sofka.plataforma_danos_back.folios.application.dto.QuoteStateResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/v1")
 @CrossOrigin(
@@ -30,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
     allowedHeaders = "*",
     methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS}
 )
-@Tag(name = "Folios", description = "Contrato para crear folios y consultar el estado base de una cotizacion")
+@Tag(name = "Folios", description = "Contrato para crear folios y consultar el estado consolidado de una cotizacion")
 public class FolioController {
 
     private final CreateFolioUseCase createFolioUseCase;
@@ -63,14 +65,17 @@ public class FolioController {
 
     @GetMapping("/quotes/{folio}/state")
         @Operation(
-            summary = "Consultar estado base del folio",
-            description = "Retorna el estado actual de la cotizacion para continuar la captura desde la ultima informacion persistida"
+            summary = "Consultar estado y progreso del folio",
+            description = "Retorna el estado global consolidado, el progreso por seccion, el resumen de ubicaciones y las alertas vigentes del folio"
         )
         @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Estado actual del folio"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "No existe una cotizacion con el numeroFolio solicitado")
         })
-    public ResponseEntity<ApiResponse<QuoteStateResponse>> getQuoteState(@PathVariable("folio") String folio) {
+    public ResponseEntity<ApiResponse<QuoteStateResponse>> getQuoteState(
+            @Parameter(description = "Numero de folio de la cotizacion", required = true, example = "1000001")
+            @PathVariable("folio") String folio
+    ) {
         QuoteStateResponse response = getQuoteStateUseCase.handle(folio);
         return ResponseEntity.ok(ApiResponse.of(response));
     }
