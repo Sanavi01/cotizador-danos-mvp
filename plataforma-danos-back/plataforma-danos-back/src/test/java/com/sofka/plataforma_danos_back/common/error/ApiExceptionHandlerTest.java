@@ -16,6 +16,8 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoCatalogValidationException;
+import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
 import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
@@ -61,6 +63,30 @@ class ApiExceptionHandlerTest {
         ProblemDetail problemDetail = assertInstanceOf(ProblemDetail.class, response.getBody());
         assertEquals("Cotizacion no encontrada", problemDetail.getTitle());
         assertEquals("No existe una cotizacion con numeroFolio 9999999", problemDetail.getDetail());
+    }
+
+    @Test
+    void handleGeneralInfoVersionConflict_returnsConflictProblemDetail() {
+        GeneralInfoVersionConflictException exception = new GeneralInfoVersionConflictException("1000001", 1L, 2L);
+
+        var response = handler.handleGeneralInfoVersionConflict(exception);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        ProblemDetail problemDetail = assertInstanceOf(ProblemDetail.class, response.getBody());
+        assertEquals("Conflicto de concurrencia", problemDetail.getTitle());
+        assertEquals("La cotizacion 1000001 tiene version 1 y no coincide con la version actual 2", problemDetail.getDetail());
+    }
+
+    @Test
+    void handleGeneralInfoCatalogValidation_returnsUnprocessableEntityProblemDetail() {
+        GeneralInfoCatalogValidationException exception = new GeneralInfoCatalogValidationException(java.util.List.of("codigoAgente"));
+
+        var response = handler.handleGeneralInfoCatalogValidation(exception);
+
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
+        ProblemDetail problemDetail = assertInstanceOf(ProblemDetail.class, response.getBody());
+        assertEquals("Referencia de catalogo invalida", problemDetail.getTitle());
+        assertEquals("Las referencias de catalogo no son validas: codigoAgente", problemDetail.getDetail());
     }
 
     @Test
