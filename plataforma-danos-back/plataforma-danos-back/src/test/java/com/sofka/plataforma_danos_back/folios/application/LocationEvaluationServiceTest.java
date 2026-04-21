@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoValidacion;
 import com.sofka.plataforma_danos_back.folios.domain.Giro;
 import com.sofka.plataforma_danos_back.folios.domain.UbicacionDetalle;
-import com.sofka.plataforma_danos_back.folios.domain.ZonaCatastrofica;
 
 class LocationEvaluationServiceTest {
 
@@ -35,6 +34,52 @@ class LocationEvaluationServiceTest {
         assertEquals(EstadoValidacion.INVALID, result.estadoValidacion());
         assertEquals(1, result.alertasBloqueantes().size());
         assertEquals("UBICACION_SIN_ZIP", result.alertasBloqueantes().get(0).codigo());
+    }
+
+    @Test
+    void evaluate_returnsIncompleteWhenTechnicalFieldsAreMissingEvenWithValidPostalCode() {
+        var result = service.evaluate(new UbicacionDetalle(
+                1,
+                "Planta principal",
+                "Calle 100 # 10-10",
+                "110111",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        ));
+
+        assertEquals(EstadoValidacion.INCOMPLETE, result.estadoValidacion());
+        assertEquals("Bogota D.C.", result.detalle().estado());
+        assertEquals(0, result.alertasBloqueantes().size());
+    }
+
+    @Test
+    void evaluate_returnsValidWhenStructureIsCompleteButGiroIsMissing() {
+        var result = service.evaluate(new UbicacionDetalle(
+                1,
+                "Planta principal",
+                "Calle 100 # 10-10",
+                "110111",
+                null,
+                null,
+                null,
+                null,
+                "CONCRETO",
+                1,
+                2018,
+                null,
+                null
+        ));
+
+        assertEquals(EstadoValidacion.VALID, result.estadoValidacion());
+        assertEquals("Bogota D.C.", result.detalle().estado());
+        assertEquals(0, result.alertasBloqueantes().size());
     }
 
     @Test

@@ -56,8 +56,13 @@ public class LocationEvaluationService {
         boolean technicalComplete = hasText(normalizedDetalle.tipoConstructivo())
                 && normalizedDetalle.nivel() != null
                 && normalizedDetalle.anioConstruccion() != null;
+        boolean giroReady = hasCompleteGiro(normalizedDetalle.giro());
 
-        EstadoValidacion estadoValidacion = technicalComplete && zonaCatastrofica != null
+        if (!technicalComplete) {
+            return UbicacionEvaluacion.withAlerts(normalizedDetalle, EstadoValidacion.INCOMPLETE, List.of());
+        }
+
+        EstadoValidacion estadoValidacion = technicalComplete && giroReady && zonaCatastrofica != null
                 ? EstadoValidacion.CALCULABLE
                 : EstadoValidacion.VALID;
 
@@ -139,6 +144,13 @@ public class LocationEvaluationService {
         boolean hasAnyField = hasText(giro.codigo()) || hasText(giro.nombre()) || hasText(giro.claveIncendio());
         boolean hasAllFields = hasText(giro.codigo()) && hasText(giro.nombre()) && hasText(giro.claveIncendio());
         return hasAnyField && !hasAllFields;
+    }
+
+    private boolean hasCompleteGiro(Giro giro) {
+        return giro != null
+                && hasText(giro.codigo())
+                && hasText(giro.nombre())
+                && hasText(giro.claveIncendio());
     }
 
     private Giro normalizeGiro(Giro giro) {
