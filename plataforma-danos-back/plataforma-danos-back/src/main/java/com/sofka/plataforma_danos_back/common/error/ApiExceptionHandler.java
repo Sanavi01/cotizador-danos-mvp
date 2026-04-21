@@ -1,13 +1,5 @@
 package com.sofka.plataforma_danos_back.common.error;
 
-import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyConflictException;
-import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoCatalogValidationException;
-import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoVersionConflictException;
-import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutValidationException;
-import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutVersionConflictException;
-import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
-import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +7,19 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoCatalogValidationException;
+import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoVersionConflictException;
+import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyConflictException;
+import com.sofka.plataforma_danos_back.folios.application.exception.InvalidLocationsPayloadException;
+import com.sofka.plataforma_danos_back.folios.application.exception.LocationNotFoundException;
+import com.sofka.plataforma_danos_back.folios.application.exception.LocationVersionConflictException;
+import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutValidationException;
+import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutVersionConflictException;
+import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
+import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
+
+import jakarta.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -39,6 +44,11 @@ public class ApiExceptionHandler {
         return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
     }
 
+    @ExceptionHandler(LocationVersionConflictException.class)
+    public ResponseEntity<ProblemDetail> handleLocationVersionConflict(LocationVersionConflictException exception) {
+        return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
+    }
+
     @ExceptionHandler(LocationsLayoutVersionConflictException.class)
     public ResponseEntity<ProblemDetail> handleLocationsLayoutVersionConflict(LocationsLayoutVersionConflictException exception) {
         return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
@@ -57,6 +67,16 @@ public class ApiExceptionHandler {
     @ExceptionHandler(LocationsLayoutValidationException.class)
     public ResponseEntity<ProblemDetail> handleLocationsLayoutValidation(LocationsLayoutValidationException exception) {
         return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Layout de ubicaciones invalido", exception.getMessage());
+    }
+
+    @ExceptionHandler(InvalidLocationsPayloadException.class)
+    public ResponseEntity<ProblemDetail> handleInvalidLocationsPayload(InvalidLocationsPayloadException exception) {
+        return problemDetail(HttpStatus.BAD_REQUEST, "Solicitud invalida", exception.getMessage());
+    }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleLocationNotFound(LocationNotFoundException exception) {
+        return problemDetail(HttpStatus.NOT_FOUND, "Ubicacion no encontrada", exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
