@@ -20,6 +20,14 @@ export function QuoteStatePage() {
         </div>
 
         <div className={styles.actions}>
+          <button
+            className={styles.secondaryButton}
+            type="button"
+            onClick={() => navigate(`/quotes/${encodeURIComponent(folio ?? '')}/general-info`)}
+            disabled={!folio}
+          >
+            Datos generales
+          </button>
           <button className={styles.secondaryButton} type="button" onClick={() => navigate('/cotizador')}>
             Volver
           </button>

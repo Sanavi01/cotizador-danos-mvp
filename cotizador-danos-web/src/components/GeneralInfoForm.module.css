@@ -1,0 +1,234 @@
+.form {
+  display: grid;
+  gap: 1rem;
+}
+
+.section {
+  padding: 1.2rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 1.35rem;
+  background: rgba(8, 15, 30, 0.72);
+  box-shadow: 0 22px 50px rgba(2, 6, 23, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.kicker {
+  margin: 0 0 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #67e8f9;
+  font-size: 0.8rem;
+}
+
+.sectionHeader h3 {
+  margin: 0;
+  color: #f8fafc;
+}
+
+.helper {
+  margin: 0;
+  max-width: 36ch;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.grid {
+  display: grid;
+  gap: 0.95rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field,
+.fieldWide {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.fieldWide {
+  grid-column: 1 / -1;
+}
+
+.field span,
+.fieldWide span {
+  color: rgba(226, 232, 240, 0.82);
+  font-size: 0.92rem;
+}
+
+.field input,
+.fieldWide input {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.95rem;
+  padding: 0.92rem 1rem;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.78);
+}
+
+.selectorWrap {
+  position: relative;
+}
+
+.selectorRow {
+  display: flex;
+  gap: 0.55rem;
+  align-items: stretch;
+}
+
+.selectorRow input {
+  flex: 1 1 auto;
+}
+
+.selectorButton {
+  flex: 0 0 auto;
+  min-width: 2.7rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.95rem;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.78);
+  cursor: pointer;
+}
+
+.selectorButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.selectorMenu {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  max-height: 12rem;
+  overflow: auto;
+  padding: 0.4rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 1rem;
+  background: rgba(8, 15, 30, 0.98);
+  box-shadow: 0 24px 50px rgba(2, 6, 23, 0.45);
+}
+
+.selectorOption {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.7rem 0.75rem;
+  border: 0;
+  border-radius: 0.85rem;
+  background: transparent;
+  color: #f8fafc;
+  cursor: pointer;
+  text-align: left;
+}
+
+.selectorOption:hover,
+.selectorOption:focus-visible {
+  background: rgba(103, 232, 249, 0.1);
+  outline: none;
+}
+
+.selectorCode {
+  color: rgba(148, 163, 184, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.74rem;
+}
+
+.selectorName {
+  font-weight: 700;
+}
+
+.selectorTag {
+  padding: 0.24rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(125, 211, 252, 0.16);
+  color: #bae6fd;
+  font-size: 0.72rem;
+}
+
+.selectorEmpty {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  color: rgba(226, 232, 240, 0.72);
+}
+
+.field input[aria-invalid='true'],
+.fieldWide input[aria-invalid='true'] {
+  border-color: rgba(252, 165, 165, 0.7);
+  background: rgba(69, 10, 22, 0.46);
+}
+
+.selectorRow input[aria-invalid='true'] {
+  border-color: rgba(252, 165, 165, 0.7);
+  background: rgba(69, 10, 22, 0.46);
+}
+
+.field input:focus-visible,
+.fieldWide input:focus-visible,
+.primaryButton:focus-visible {
+  outline: 2px solid rgba(103, 232, 249, 0.85);
+  outline-offset: 2px;
+}
+
+.field input:disabled,
+.fieldWide input:disabled,
+.primaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.feedback {
+  margin: 0.1rem 0 0;
+  font-size: 0.86rem;
+  line-height: 1.35;
+}
+
+.error {
+  color: #fda4af;
+}
+
+.warning {
+  color: #fcd34d;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0.15rem 0;
+}
+
+.note {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.76);
+}
+
+.primaryButton {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.95rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #08111f;
+  background: linear-gradient(135deg, #67e8f9, #a7f3d0);
+}
+
+@media (max-width: 800px) {
+  .sectionHeader {
+    flex-direction: column;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
