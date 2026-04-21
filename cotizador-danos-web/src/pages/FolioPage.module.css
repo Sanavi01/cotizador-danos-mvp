@@ -1,0 +1,149 @@
+.page {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.heroCopy,
+.panel,
+.lookupCard {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 1.5rem;
+  background: rgba(8, 15, 30, 0.7);
+  box-shadow: 0 24px 70px rgba(2, 6, 23, 0.35);
+  backdrop-filter: blur(18px);
+}
+
+.heroCopy {
+  padding: 1.5rem 1.5rem 1.65rem;
+}
+
+.kicker {
+  margin: 0 0 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #67e8f9;
+  font-size: 0.82rem;
+}
+
+.heroCopy h1,
+.lookupCard h2 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #f8fafc;
+}
+
+.heroCopy h1 {
+  font-size: clamp(2.4rem, 5vw, 4.35rem);
+  line-height: 0.98;
+  max-width: 11ch;
+}
+
+.description {
+  margin: 1rem 0 1.1rem;
+  max-width: 62ch;
+  color: rgba(226, 232, 240, 0.84);
+}
+
+.panel {
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.field span {
+  font-weight: 700;
+}
+
+.field input,
+.lookupForm input {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.9rem;
+  padding: 0.95rem 1rem;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.field input::placeholder,
+.lookupForm input::placeholder {
+  color: rgba(148, 163, 184, 0.72);
+}
+
+.field input:focus,
+.lookupForm input:focus {
+  outline: 2px solid rgba(103, 232, 249, 0.45);
+  outline-offset: 2px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.95rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primaryButton {
+  color: #08111f;
+  background: linear-gradient(135deg, #67e8f9, #a7f3d0);
+}
+
+.secondaryButton {
+  color: #e2e8f0;
+  background: rgba(148, 163, 184, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.stack {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.lookupCard {
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.lookupCard p {
+  margin: 0.45rem 0 0;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.lookupForm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+}
+
+@media (max-width: 920px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .lookupForm {
+    grid-template-columns: 1fr;
+  }
+}
