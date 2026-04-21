@@ -2,6 +2,7 @@ package com.sofka.plataforma_core_ohs.infrastructure;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,16 @@ public class ReferenceCoreFixtureStore {
 	private List<CatalogItem> businessLines = List.of();
 	private List<CatalogItem> riskClassifications = List.of();
 	private List<CatalogItem> guarantees = List.of();
-	private CalculationParameters calculationParameters = new CalculationParameters("CALC-2026-CORE", true, "Parametros activos de calculo", "1.0.0", java.time.OffsetDateTime.parse("2026-04-20T00:00:00Z"));
+	private CalculationParameters calculationParameters = new CalculationParameters(
+			"CALC-2026-CORE",
+			true,
+			"Parametros activos de calculo",
+			"1.0.0",
+			java.time.OffsetDateTime.parse("2026-04-20T00:00:00Z"),
+			new BigDecimal("0.12"),
+			new BigDecimal("0.05"),
+			"COP",
+			"HALF_UP");
 	private Map<String, ZipCodeInfo> zipCodesByCode = Map.of();
 	private List<FireTariff> fireTariffs = List.of();
 	private List<CatTariff> catTariffs = List.of();
