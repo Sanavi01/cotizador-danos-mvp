@@ -391,19 +391,19 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicio Axios para consultar y guardar opciones de cobertura
-- [ ] Crear hook para administrar carga, guardado y errores
-- [ ] Implementar formulario y componentes de selector de garantias
-- [ ] Implementar pagina de edicion y registrar ruta nueva
-- [ ] Integrar el catalogo de garantias desde la referencia core
-- [ ] Mantener mensajes de error y estado con envelope `data` y Problem Details
+- [x] Crear servicio Axios para consultar y guardar opciones de cobertura
+- [x] Crear hook para administrar carga, guardado y errores
+- [x] Implementar formulario y componentes de selector de garantias
+- [x] Implementar pagina de edicion y registrar ruta nueva
+- [x] Integrar el catalogo de garantias desde la referencia core
+- [x] Mantener mensajes de error y estado con envelope `data` y Problem Details
 
 #### Tests Frontend
-- [ ] Componente principal renderiza coberturas existentes
-- [ ] Componente dispara guardado con la version actual
-- [ ] Hook maneja carga exitosa y configuracion vacia
-- [ ] Hook maneja error de folio inexistente o validacion invalida
-- [ ] Pagina integra consulta, edicion y resumen
+- [x] Componente principal renderiza coberturas existentes
+- [x] Componente dispara guardado con la version actual
+- [x] Hook maneja carga exitosa y configuracion vacia
+- [x] Hook maneja error de folio inexistente o validacion invalida
+- [x] Pagina integra consulta, edicion y resumen
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` -> criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3
