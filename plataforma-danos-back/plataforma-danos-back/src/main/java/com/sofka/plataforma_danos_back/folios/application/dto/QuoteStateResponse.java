@@ -5,7 +5,10 @@ import java.time.Instant;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.sofka.plataforma_danos_back.folios.domain.Cotizacion;
+import com.sofka.plataforma_danos_back.folios.domain.EstadoCalculo;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoCotizacion;
+import com.sofka.plataforma_danos_back.folios.domain.PrimaPorUbicacion;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -107,5 +110,28 @@ public record QuoteStateResponse(
             @Schema(description = "Version del calculationParameters usada por el ultimo calculo", example = "1.0.0")
             String calculationParameterVersion
     ) {
+                public static ResultadoFinancieroResumen from(Cotizacion cotizacion, List<PrimaPorUbicacion> primasPorUbicacion) {
+                        if (cotizacion == null || cotizacion.primaNeta() == null || cotizacion.primaComercial() == null || cotizacion.estadoCalculo() == null || cotizacion.calculatedAt() == null) {
+                                return null;
+                        }
+
+                        List<PrimaPorUbicacion> primas = primasPorUbicacion == null ? List.of() : primasPorUbicacion;
+                        int ubicacionesCalculadas = (int) primas.stream().filter(PrimaPorUbicacion::ubicacionCalculable).count();
+                        int ubicacionesNoCalculables = primas.size() - ubicacionesCalculadas;
+
+                        return new ResultadoFinancieroResumen(
+                                        cotizacion.primaNeta(),
+                                        cotizacion.primaComercial(),
+                                        ubicacionesCalculadas,
+                                        ubicacionesNoCalculables,
+                                        mapEstadoCalculo(cotizacion.estadoCalculo()),
+                                        cotizacion.calculatedAt(),
+                                        cotizacion.calculationParameterVersion()
+                        );
+                }
+
+                private static EstadoCalculoResumen mapEstadoCalculo(EstadoCalculo estadoCalculo) {
+                        return estadoCalculo == null ? null : EstadoCalculoResumen.valueOf(estadoCalculo.name());
+                }
     }
 }

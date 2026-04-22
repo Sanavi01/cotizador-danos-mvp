@@ -10,17 +10,30 @@ public record Cotizacion(
         Long version,
         Instant fechaUltimaActualizacion,
         BigDecimal primaNeta,
-        BigDecimal primaComercial
+        BigDecimal primaComercial,
+        EstadoCalculo estadoCalculo,
+        Instant calculatedAt,
+        String calculationParameterVersion
 ) {
     public static Cotizacion nueva(String numeroFolio, Instant now) {
-        return new Cotizacion(null, numeroFolio, EstadoCotizacion.BORRADOR, 0L, now, null, null);
+        return new Cotizacion(null, numeroFolio, EstadoCotizacion.BORRADOR, 0L, now, null, null, null, null, null);
     }
 
     public Cotizacion withPersistence(Long id, Long version, Instant fechaUltimaActualizacion) {
-        return new Cotizacion(id, numeroFolio, estadoCotizacion, version, fechaUltimaActualizacion, primaNeta, primaComercial);
+        return new Cotizacion(id, numeroFolio, estadoCotizacion, version, fechaUltimaActualizacion, primaNeta, primaComercial, estadoCalculo, calculatedAt, calculationParameterVersion);
     }
 
     public Cotizacion withEstado(EstadoCotizacion estadoCotizacion) {
-        return new Cotizacion(id, numeroFolio, estadoCotizacion, version, fechaUltimaActualizacion, primaNeta, primaComercial);
+        return new Cotizacion(id, numeroFolio, estadoCotizacion, version, fechaUltimaActualizacion, primaNeta, primaComercial, estadoCalculo, calculatedAt, calculationParameterVersion);
+    }
+
+    public Cotizacion withFinancialResult(
+            BigDecimal primaNeta,
+            BigDecimal primaComercial,
+            EstadoCalculo estadoCalculo,
+            Instant calculatedAt,
+            String calculationParameterVersion
+    ) {
+        return new Cotizacion(id, numeroFolio, estadoCotizacion, version, fechaUltimaActualizacion, primaNeta, primaComercial, estadoCalculo, calculatedAt, calculationParameterVersion);
     }
 }

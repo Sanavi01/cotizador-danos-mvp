@@ -378,23 +378,23 @@ CRITERIO-2.3: Reintentar el calculo sin cambiar el folio
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para ejecucion de calculo y resultado financiero
-- [ ] Implementar entidad o agregado de resultado financiero y primas por ubicacion
-- [ ] Implementar caso de uso de calculo del folio por `numeroFolio`
-- [ ] Implementar lectura de insumos tecnicos desde cotizacion, ubicaciones y catalogos
-- [ ] Implementar persistencia transaccional del resultado financiero
-- [ ] Implementar controller `/v1/quotes/{folio}/calculate`
-- [ ] Actualizar la proyeccion resumida de `/state` definida en `SPEC-006` para exponer `resultadoFinanciero`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear request/response DTOs para ejecucion de calculo y resultado financiero
+- [x] Implementar entidad o agregado de resultado financiero y primas por ubicacion
+- [x] Implementar caso de uso de calculo del folio por `numeroFolio`
+- [x] Implementar lectura de insumos tecnicos desde cotizacion, ubicaciones y catalogos
+- [x] Implementar persistencia transaccional del resultado financiero
+- [x] Implementar controller `/v1/quotes/{folio}/calculate`
+- [x] Actualizar la proyeccion resumida de `/state` definida en `SPEC-006` para exponer `resultadoFinanciero`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de calculo con ubicaciones validas
-- [ ] Caso de uso con ubicaciones incompletas y alertas vigentes
-- [ ] Caso de uso con numeroFolio inexistente
-- [ ] Caso de uso con version desactualizada o conflicto de concurrencia
-- [ ] Caso de uso con ninguna ubicacion calculable
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de calculo con ubicaciones validas
+- [x] Caso de uso con ubicaciones incompletas y alertas vigentes
+- [x] Caso de uso con numeroFolio inexistente
+- [x] Caso de uso con version desactualizada o conflicto de concurrencia
+- [x] Caso de uso con ninguna ubicacion calculable
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
