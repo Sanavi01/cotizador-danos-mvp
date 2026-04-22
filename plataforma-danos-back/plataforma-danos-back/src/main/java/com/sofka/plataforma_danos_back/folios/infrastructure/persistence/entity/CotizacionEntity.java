@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.sofka.plataforma_danos_back.folios.domain.Cotizacion;
+import com.sofka.plataforma_danos_back.folios.domain.EstadoCalculo;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoCotizacion;
 
 import jakarta.persistence.Column;
@@ -45,6 +46,16 @@ public class CotizacionEntity {
 
     @Column(name = "prima_comercial")
     private BigDecimal primaComercial;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_calculo", length = 20)
+    private EstadoCalculo estadoCalculo;
+
+    @Column(name = "calculated_at")
+    private Instant calculatedAt;
+
+    @Column(name = "calculation_parameter_version", length = 32)
+    private String calculationParameterVersion;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
@@ -104,6 +115,30 @@ public class CotizacionEntity {
         this.primaComercial = primaComercial;
     }
 
+    public EstadoCalculo getEstadoCalculo() {
+        return estadoCalculo;
+    }
+
+    public void setEstadoCalculo(EstadoCalculo estadoCalculo) {
+        this.estadoCalculo = estadoCalculo;
+    }
+
+    public Instant getCalculatedAt() {
+        return calculatedAt;
+    }
+
+    public void setCalculatedAt(Instant calculatedAt) {
+        this.calculatedAt = calculatedAt;
+    }
+
+    public String getCalculationParameterVersion() {
+        return calculationParameterVersion;
+    }
+
+    public void setCalculationParameterVersion(String calculationParameterVersion) {
+        this.calculationParameterVersion = calculationParameterVersion;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -152,8 +187,11 @@ public class CotizacionEntity {
                 estadoCotizacion,
                 version,
                 fechaUltimaActualizacion,
-                primaNeta,
-                primaComercial
+            primaNeta,
+            primaComercial,
+            estadoCalculo,
+            calculatedAt,
+            calculationParameterVersion
         );
     }
 
@@ -166,6 +204,9 @@ public class CotizacionEntity {
         entity.fechaUltimaActualizacion = cotizacion.fechaUltimaActualizacion();
         entity.primaNeta = cotizacion.primaNeta();
         entity.primaComercial = cotizacion.primaComercial();
+        entity.estadoCalculo = cotizacion.estadoCalculo();
+        entity.calculatedAt = cotizacion.calculatedAt();
+        entity.calculationParameterVersion = cotizacion.calculationParameterVersion();
         return entity;
     }
 }
