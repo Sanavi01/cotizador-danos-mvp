@@ -20,6 +20,8 @@ import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoC
 import com.sofka.plataforma_danos_back.folios.application.exception.GeneralInfoVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.IdempotencyConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
+import com.sofka.plataforma_danos_back.folios.application.exception.QuoteCalculationRejectedException;
+import com.sofka.plataforma_danos_back.folios.application.exception.QuoteCalculationVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
 
 import jakarta.validation.ConstraintViolation;
@@ -63,6 +65,30 @@ class ApiExceptionHandlerTest {
         ProblemDetail problemDetail = assertInstanceOf(ProblemDetail.class, response.getBody());
         assertEquals("Cotizacion no encontrada", problemDetail.getTitle());
         assertEquals("No existe una cotizacion con numeroFolio 9999999", problemDetail.getDetail());
+    }
+
+    @Test
+    void handleQuoteCalculationVersionConflict_returnsConflictProblemDetail() {
+        QuoteCalculationVersionConflictException exception = new QuoteCalculationVersionConflictException("1000001", 4L, 5L);
+
+        var response = handler.handleQuoteCalculationVersionConflict(exception);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+        ProblemDetail problemDetail = assertInstanceOf(ProblemDetail.class, response.getBody());
+        assertEquals("Conflicto de concurrencia", problemDetail.getTitle());
+        assertEquals("La version de calculo para el folio 1000001 no coincide. Solicitada: 4, vigente: 5", problemDetail.getDetail());
+    }
+
+    @Test
+    void handleQuoteCalculationRejected_returnsUnprocessableEntityProblemDetail() {
+        QuoteCalculationRejectedException exception = new QuoteCalculationRejectedException("La cotizacion no tiene ubicaciones calculables");
+
+        var response = handler.handleQuoteCalculationRejected(exception);
+
+        assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, response.getStatusCode());
+        ProblemDetail problemDetail = assertInstanceOf(ProblemDetail.class, response.getBody());
+        assertEquals("Calculo no disponible", problemDetail.getTitle());
+        assertEquals("La cotizacion no tiene ubicaciones calculables", problemDetail.getDetail());
     }
 
     @Test
