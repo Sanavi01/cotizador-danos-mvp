@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,10 +22,13 @@ import com.sofka.plataforma_danos_back.folios.domain.DatosGeneralesCotizacion;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoCotizacion;
 import com.sofka.plataforma_danos_back.folios.domain.EstadoValidacion;
 import com.sofka.plataforma_danos_back.folios.domain.LayoutUbicacionSlot;
+import com.sofka.plataforma_danos_back.folios.domain.PrimaPorUbicacion;
 import com.sofka.plataforma_danos_back.folios.domain.UbicacionCotizacion;
 import com.sofka.plataforma_danos_back.folios.domain.port.ConfiguracionLayoutRepository;
+import com.sofka.plataforma_danos_back.folios.domain.port.CoverageOptionsRepository;
 import com.sofka.plataforma_danos_back.folios.domain.port.CotizacionRepository;
 import com.sofka.plataforma_danos_back.folios.domain.port.DatosGeneralesCotizacionRepository;
+import com.sofka.plataforma_danos_back.folios.domain.port.PrimaPorUbicacionRepository;
 import com.sofka.plataforma_danos_back.folios.domain.port.UbicacionCotizacionRepository;
 
 @Service
@@ -34,9 +38,11 @@ public class GetQuoteStateUseCase {
     private final DatosGeneralesCotizacionRepository datosGeneralesCotizacionRepository;
     private final ConfiguracionLayoutRepository configuracionLayoutRepository;
     private final UbicacionCotizacionRepository ubicacionCotizacionRepository;
+    private final CoverageOptionsRepository coverageOptionsRepository;
+    private final PrimaPorUbicacionRepository primaPorUbicacionRepository;
 
     public GetQuoteStateUseCase(CotizacionRepository cotizacionRepository) {
-        this(cotizacionRepository, null, null, null);
+        this(cotizacionRepository, null, null, null, null, null);
     }
 
     @Autowired
@@ -44,12 +50,16 @@ public class GetQuoteStateUseCase {
             CotizacionRepository cotizacionRepository,
             DatosGeneralesCotizacionRepository datosGeneralesCotizacionRepository,
             ConfiguracionLayoutRepository configuracionLayoutRepository,
-            UbicacionCotizacionRepository ubicacionCotizacionRepository
+            UbicacionCotizacionRepository ubicacionCotizacionRepository,
+            CoverageOptionsRepository coverageOptionsRepository,
+            PrimaPorUbicacionRepository primaPorUbicacionRepository
     ) {
         this.cotizacionRepository = Objects.requireNonNull(cotizacionRepository, "cotizacionRepository es obligatorio");
         this.datosGeneralesCotizacionRepository = datosGeneralesCotizacionRepository;
         this.configuracionLayoutRepository = configuracionLayoutRepository;
         this.ubicacionCotizacionRepository = ubicacionCotizacionRepository;
+        this.coverageOptionsRepository = coverageOptionsRepository;
+        this.primaPorUbicacionRepository = primaPorUbicacionRepository;
     }
 
     @Transactional(readOnly = true)
@@ -60,6 +70,8 @@ public class GetQuoteStateUseCase {
         DatosGeneralesCotizacion datosGenerales = findGeneralInfo(cotizacion.id());
         ConfiguracionLayout configuracionLayout = findLocationsLayout(cotizacion.id());
         List<UbicacionCotizacion> ubicaciones = findLocations(cotizacion.id());
+        List<PrimaPorUbicacion> primasPorUbicacion = findFinancialDetails(cotizacion.id());
+        boolean hasCoverageOptions = hasCoverageOptions(cotizacion.id());
 
         QuoteStateResponse.EstadoSeccion progresoDatosGenerales = datosGenerales == null
                 ? QuoteStateResponse.EstadoSeccion.INCOMPLETE
@@ -89,11 +101,13 @@ public class GetQuoteStateUseCase {
                 ? QuoteStateResponse.EstadoSeccion.COMPLETED
                 : QuoteStateResponse.EstadoSeccion.INCOMPLETE;
 
-        QuoteStateResponse.EstadoSeccion progresoOpcionesCobertura = QuoteStateResponse.EstadoSeccion.INCOMPLETE;
+        QuoteStateResponse.EstadoSeccion progresoOpcionesCobertura = hasCoverageOptions
+            ? QuoteStateResponse.EstadoSeccion.COMPLETED
+            : QuoteStateResponse.EstadoSeccion.INCOMPLETE;
 
         QuoteStateResponse.ResumenUbicaciones resumenUbicaciones = buildLocationsSummary(indicesEsperados.size(), ubicaciones);
         List<QuoteStateResponse.AlertaVigente> alertasVigentes = aggregateAlerts(ubicaciones);
-        boolean readyToCalculate = false;
+        boolean readyToCalculate = hasCoverageOptions && ubicaciones.stream().anyMatch(ubicacion -> ubicacion.estadoValidacion() == EstadoValidacion.CALCULABLE);
         EstadoCotizacion estadoCotizacion = resolveQuoteState(
                 cotizacion,
                 progresoDatosGenerales,
@@ -118,8 +132,24 @@ public class GetQuoteStateUseCase {
                 !alertasVigentes.isEmpty(),
                 alertasVigentes,
                 readyToCalculate,
-                null
+                QuoteStateResponse.ResultadoFinancieroResumen.from(cotizacion, primasPorUbicacion)
         );
+    }
+
+    private boolean hasCoverageOptions(Long cotizacionId) {
+        if (coverageOptionsRepository == null) {
+            return false;
+        }
+        return coverageOptionsRepository.findByCotizacionId(cotizacionId)
+                .map(coverageOptions -> !coverageOptions.garantiasSeleccionadas().isEmpty())
+                .orElse(false);
+    }
+
+    private List<PrimaPorUbicacion> findFinancialDetails(Long cotizacionId) {
+        if (primaPorUbicacionRepository == null) {
+            return List.of();
+        }
+        return primaPorUbicacionRepository.findAllByCotizacionId(cotizacionId);
     }
 
     private DatosGeneralesCotizacion findGeneralInfo(Long cotizacionId) {

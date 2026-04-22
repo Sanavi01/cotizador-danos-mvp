@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sofka.plataforma_danos_back.common.http.ApiResponse;
+import com.sofka.plataforma_danos_back.folios.application.CalculateQuoteUseCase;
 import com.sofka.plataforma_danos_back.folios.application.CreateFolioUseCase;
 import com.sofka.plataforma_danos_back.folios.application.GetQuoteStateUseCase;
+import com.sofka.plataforma_danos_back.folios.application.dto.CalculateQuoteRequest;
+import com.sofka.plataforma_danos_back.folios.application.dto.CalculateQuoteResponse;
 import com.sofka.plataforma_danos_back.folios.application.dto.CreateFolioRequest;
 import com.sofka.plataforma_danos_back.folios.application.dto.CreateFolioResponse;
 import com.sofka.plataforma_danos_back.folios.application.dto.FolioCreationResult;
@@ -37,10 +40,16 @@ public class FolioController {
 
     private final CreateFolioUseCase createFolioUseCase;
     private final GetQuoteStateUseCase getQuoteStateUseCase;
+    private final CalculateQuoteUseCase calculateQuoteUseCase;
 
-    public FolioController(CreateFolioUseCase createFolioUseCase, GetQuoteStateUseCase getQuoteStateUseCase) {
+    public FolioController(
+            CreateFolioUseCase createFolioUseCase,
+            GetQuoteStateUseCase getQuoteStateUseCase,
+            CalculateQuoteUseCase calculateQuoteUseCase
+    ) {
         this.createFolioUseCase = createFolioUseCase;
         this.getQuoteStateUseCase = getQuoteStateUseCase;
+        this.calculateQuoteUseCase = calculateQuoteUseCase;
     }
 
     @PostMapping("/folios")
@@ -79,4 +88,24 @@ public class FolioController {
         QuoteStateResponse response = getQuoteStateUseCase.handle(folio);
         return ResponseEntity.ok(ApiResponse.of(response));
     }
+
+        @PostMapping("/quotes/{folio}/calculate")
+        @Operation(
+            summary = "Calcular prima tecnica y comercial del folio",
+            description = "Ejecuta el calculo financiero del folio y persiste el resultado vigente sin sobrescribir otras secciones"
+        )
+        @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Resultado financiero consolidado"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "No existe una cotizacion con el numeroFolio solicitado"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "La version de la cotizacion no coincide con la vigente"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "422", description = "La cotizacion no tiene insumos minimos para calcular ninguna ubicacion")
+        })
+        public ResponseEntity<ApiResponse<CalculateQuoteResponse>> calculateQuote(
+            @Parameter(description = "Numero de folio de la cotizacion", required = true, example = "1000001")
+            @PathVariable("folio") String folio,
+            @Valid @RequestBody CalculateQuoteRequest request
+        ) {
+        CalculateQuoteResponse response = calculateQuoteUseCase.handle(folio, request);
+        return ResponseEntity.ok(ApiResponse.of(response));
+        }
 }

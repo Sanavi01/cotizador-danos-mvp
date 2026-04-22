@@ -20,6 +20,8 @@ import com.sofka.plataforma_danos_back.folios.application.exception.LocationVers
 import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutValidationException;
 import com.sofka.plataforma_danos_back.folios.application.exception.LocationsLayoutVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.MissingIdempotencyKeyException;
+import com.sofka.plataforma_danos_back.folios.application.exception.QuoteCalculationRejectedException;
+import com.sofka.plataforma_danos_back.folios.application.exception.QuoteCalculationVersionConflictException;
 import com.sofka.plataforma_danos_back.folios.application.exception.QuoteNotFoundException;
 
 import jakarta.validation.ConstraintViolationException;
@@ -40,6 +42,16 @@ public class ApiExceptionHandler {
     @ExceptionHandler(QuoteNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleQuoteNotFound(QuoteNotFoundException exception) {
         return problemDetail(HttpStatus.NOT_FOUND, "Cotizacion no encontrada", exception.getMessage());
+    }
+
+    @ExceptionHandler(QuoteCalculationVersionConflictException.class)
+    public ResponseEntity<ProblemDetail> handleQuoteCalculationVersionConflict(QuoteCalculationVersionConflictException exception) {
+        return problemDetail(HttpStatus.CONFLICT, "Conflicto de concurrencia", exception.getMessage());
+    }
+
+    @ExceptionHandler(QuoteCalculationRejectedException.class)
+    public ResponseEntity<ProblemDetail> handleQuoteCalculationRejected(QuoteCalculationRejectedException exception) {
+        return problemDetail(HttpStatus.UNPROCESSABLE_ENTITY, "Calculo no disponible", exception.getMessage());
     }
 
     @ExceptionHandler(GeneralInfoVersionConflictException.class)
