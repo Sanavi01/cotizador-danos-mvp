@@ -32,6 +32,14 @@ export function QuoteStatePage() {
           <button
             className={styles.secondaryButton}
             type="button"
+            onClick={() => navigate(`/quotes/${encodeURIComponent(folio ?? '')}/coverage-options`)}
+            disabled={!folio}
+          >
+            Opciones de cobertura
+          </button>
+          <button
+            className={styles.secondaryButton}
+            type="button"
             onClick={() => navigate(`/quotes/${encodeURIComponent(folio ?? '')}/locations/layout`)}
             disabled={!folio}
           >
