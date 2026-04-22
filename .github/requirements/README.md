@@ -47,8 +47,8 @@ requirements/<feature>.md  →  /generate-spec  →  specs/<feature>.spec.md
 | Datos Generales de Cotizacion | `datos-generales-de-cotizacion.md` | [datos-generales-de-cotizacion.spec.md](../specs/datos-generales-de-cotizacion.spec.md) | APPROVED |
 | Configuracion de Layout de Ubicaciones | `configuracion-de-layout-de-ubicaciones.md` | [configuracion-de-layout-de-ubicaciones.spec.md](../specs/configuracion-de-layout-de-ubicaciones.spec.md) | APPROVED |
 | Gestion de Ubicaciones | `gestion-de-ubicaciones.md` | [gestion-de-ubicaciones.spec.md](../specs/gestion-de-ubicaciones.spec.md) | APPROVED |
-| Estado y Progreso de Cotizacion | `estado-y-progreso-de-cotizacion.md` | [estado-y-progreso-de-cotizacion.spec.md](../specs/estado-y-progreso-de-cotizacion.spec.md) | DRAFT |
-| Opciones de Cobertura | `opciones-de-cobertura.md` | [opciones-de-cobertura.spec.md](../specs/opciones-de-cobertura.spec.md) | DRAFT |
+| Estado y Progreso de Cotizacion | `estado-y-progreso-de-cotizacion.md` | [estado-y-progreso-de-cotizacion.spec.md](../specs/estado-y-progreso-de-cotizacion.spec.md) | APPROVED |
+| Opciones de Cobertura | `opciones-de-cobertura.md` | [opciones-de-cobertura.spec.md](../specs/opciones-de-cobertura.spec.md) | APPROVED |
 | Calculo de Prima y Resultado Financiero | `calculo-de-prima-y-resultado-financiero.md` | [calculo-de-prima-y-resultado-financiero.spec.md](../specs/calculo-de-prima-y-resultado-financiero.spec.md) | DRAFT |
 
 > Actualiza esta tabla cuando cambie el estado de una spec o se agregue un requerimiento nuevo.

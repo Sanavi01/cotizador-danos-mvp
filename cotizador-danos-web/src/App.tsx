@@ -5,6 +5,7 @@ import { LocationsPage } from './pages/LocationsPage'
 import { LocationsLayoutPage } from './pages/LocationsLayoutPage'
 import { FolioPage } from './pages/FolioPage'
 import { QuoteStatePage } from './pages/QuoteStatePage'
+import { CoverageOptionsPage } from './pages/CoverageOptionsPage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/" element={<Navigate to="/cotizador" replace />} />
       <Route path="/cotizador" element={<FolioPage />} />
       <Route path="/quotes/:folio/general-info" element={<GeneralInfoPage />} />
+      <Route path="/quotes/:folio/coverage-options" element={<CoverageOptionsPage />} />
       <Route path="/quotes/:folio/locations" element={<LocationsPage />} />
       <Route path="/quotes/:folio/locations/:indice" element={<LocationDetailPage />} />
       <Route path="/quotes/:folio/locations/layout" element={<LocationsLayoutPage />} />

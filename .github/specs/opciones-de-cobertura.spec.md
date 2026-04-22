@@ -1,6 +1,6 @@
 ---
 id: SPEC-007
-status: DRAFT
+status: APPROVED
 feature: opciones-de-cobertura
 created: 2026-04-21
 updated: 2026-04-21
@@ -371,39 +371,39 @@ CRITERIO-2.3: Rechazar un cambio con version desactualizada
 ### Backend
 
 #### Implementacion
-- [ ] Crear request/response DTOs para consulta y actualizacion de opciones de cobertura
-- [ ] Implementar entidad de dominio para opcionesCobertura y garantias seleccionadas
-- [ ] Implementar caso de uso de consulta de opciones de cobertura por `numeroFolio`
-- [ ] Implementar caso de uso de actualizacion con validacion contra catalogo aprobado
-- [ ] Implementar adaptador JPA y migracion Flyway para `cotizacion_opciones_cobertura`
-- [ ] Implementar controller `/v1/quotes/{folio}/coverage-options`
-- [ ] Documentar OpenAPI del contrato
+- [x] Crear request/response DTOs para consulta y actualizacion de opciones de cobertura
+- [x] Implementar entidad de dominio para opcionesCobertura y garantias seleccionadas
+- [x] Implementar caso de uso de consulta de opciones de cobertura por `numeroFolio`
+- [x] Implementar caso de uso de actualizacion con validacion contra catalogo aprobado
+- [x] Implementar adaptador JPA y migracion Flyway para `cotizacion_opciones_cobertura`
+- [x] Implementar controller `/v1/quotes/{folio}/coverage-options`
+- [x] Documentar OpenAPI del contrato
 
 #### Tests Backend
-- [ ] Caso de uso happy path de consulta de coberturas
-- [ ] Caso de uso happy path de actualizacion valida
-- [ ] Caso de uso con garantia no soportada o inactiva
-- [ ] Caso de uso con numeroFolio inexistente
-- [ ] Caso de uso con conflicto de version desactualizada
-- [ ] Controller con respuesta `200` y envelope `data`
-- [ ] Controller con Problem Details ante error relevante
+- [x] Caso de uso happy path de consulta de coberturas
+- [x] Caso de uso happy path de actualizacion valida
+- [x] Caso de uso con garantia no soportada o inactiva
+- [x] Caso de uso con numeroFolio inexistente
+- [x] Caso de uso con conflicto de version desactualizada
+- [x] Controller con respuesta `200` y envelope `data`
+- [x] Controller con Problem Details ante error relevante
 
 ### Frontend
 
 #### Implementacion
-- [ ] Crear servicio Axios para consultar y guardar opciones de cobertura
-- [ ] Crear hook para administrar carga, guardado y errores
-- [ ] Implementar formulario y componentes de selector de garantias
-- [ ] Implementar pagina de edicion y registrar ruta nueva
-- [ ] Integrar el catalogo de garantias desde la referencia core
-- [ ] Mantener mensajes de error y estado con envelope `data` y Problem Details
+- [x] Crear servicio Axios para consultar y guardar opciones de cobertura
+- [x] Crear hook para administrar carga, guardado y errores
+- [x] Implementar formulario y componentes de selector de garantias
+- [x] Implementar pagina de edicion y registrar ruta nueva
+- [x] Integrar el catalogo de garantias desde la referencia core
+- [x] Mantener mensajes de error y estado con envelope `data` y Problem Details
 
 #### Tests Frontend
-- [ ] Componente principal renderiza coberturas existentes
-- [ ] Componente dispara guardado con la version actual
-- [ ] Hook maneja carga exitosa y configuracion vacia
-- [ ] Hook maneja error de folio inexistente o validacion invalida
-- [ ] Pagina integra consulta, edicion y resumen
+- [x] Componente principal renderiza coberturas existentes
+- [x] Componente dispara guardado con la version actual
+- [x] Hook maneja carga exitosa y configuracion vacia
+- [x] Hook maneja error de folio inexistente o validacion invalida
+- [x] Pagina integra consulta, edicion y resumen
 
 ### QA
 - [ ] Ejecutar skill `/gherkin-case-generator` -> criterios CRITERIO-1.1, 1.2, 1.3, 2.1, 2.2, 2.3

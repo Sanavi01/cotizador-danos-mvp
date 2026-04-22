@@ -151,7 +151,9 @@
     { "tariffKey": "ZTEV-3|GAR-INC-CONT", "zonaTev": "ZTEV-3", "coberturaCode": "GAR-INC-CONT", "rate": 0.008, "factor": 1.06, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
     { "tariffKey": "ZTEV-4|GAR-INC-LUC", "zonaTev": "ZTEV-4", "coberturaCode": "GAR-INC-LUC", "rate": 0.009, "factor": 1.08, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
     { "tariffKey": "ZTEV-2|GAR-ROBO", "zonaTev": "ZTEV-2", "coberturaCode": "GAR-ROBO", "rate": 0.010, "factor": 1.10, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "ZTEV-3|GAR-ROBO", "zonaTev": "ZTEV-3", "coberturaCode": "GAR-ROBO", "rate": 0.0105, "factor": 1.11, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
     { "tariffKey": "ZTEV-3|GAR-EL", "zonaTev": "ZTEV-3", "coberturaCode": "GAR-EL", "rate": 0.011, "factor": 1.12, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "ZTEV-3|GAR-TER", "zonaTev": "ZTEV-3", "coberturaCode": "GAR-TER", "rate": 0.0115, "factor": 1.13, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
     { "tariffKey": "ZTEV-4|GAR-TER", "zonaTev": "ZTEV-4", "coberturaCode": "GAR-TER", "rate": 0.012, "factor": 1.14, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" }
   ],
   "fhmTariffs": [
@@ -178,7 +180,13 @@
   "tariffs": [
     { "tariffKey": "GIRO-001|ZTEV-1|GAR-INC-ED", "giroCode": "GIRO-001", "zonaCode": "ZTEV-1", "garantiaCode": "GAR-INC-ED", "rate": 0.015, "factor": 1.2, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
     { "tariffKey": "GIRO-002|ZTEV-2|GAR-INC-CONT", "giroCode": "GIRO-002", "zonaCode": "ZTEV-2", "garantiaCode": "GAR-INC-CONT", "rate": 0.016, "factor": 1.18, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
-    { "tariffKey": "GIRO-003|ZTEV-3|GAR-INC-LUC", "giroCode": "GIRO-003", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-LUC", "rate": 0.017, "factor": 1.16, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" }
+    { "tariffKey": "GIRO-003|ZTEV-3|GAR-INC-LUC", "giroCode": "GIRO-003", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-LUC", "rate": 0.017, "factor": 1.16, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "GIRO-001|ZTEV-3|GAR-INC-ED", "giroCode": "GIRO-001", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-ED", "rate": 0.0155, "factor": 1.19, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "GIRO-001|ZTEV-3|GAR-INC-CONT", "giroCode": "GIRO-001", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-CONT", "rate": 0.0165, "factor": 1.17, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "GIRO-002|ZTEV-3|GAR-INC-ED", "giroCode": "GIRO-002", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-ED", "rate": 0.0156, "factor": 1.18, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "GIRO-002|ZTEV-3|GAR-INC-CONT", "giroCode": "GIRO-002", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-CONT", "rate": 0.0166, "factor": 1.16, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "GIRO-003|ZTEV-3|GAR-INC-ED", "giroCode": "GIRO-003", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-ED", "rate": 0.0157, "factor": 1.17, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" },
+    { "tariffKey": "GIRO-003|ZTEV-3|GAR-INC-CONT", "giroCode": "GIRO-003", "zonaCode": "ZTEV-3", "garantiaCode": "GAR-INC-CONT", "rate": 0.0167, "factor": 1.15, "moneda": "COP", "vigenciaDesde": "2026-01-01T00:00:00Z", "vigenciaHasta": "2026-12-31T23:59:59Z" }
   ],
   "folioSequence": {
     "nextNumeroFolio": "1000004",
